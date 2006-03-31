@@ -22,8 +22,8 @@ import de.ingrid.ibus.client.BusClient;
  * 
  */
 public class BustClientTest extends TestCase {
-    
-    private static final boolean ENABLED=false; 
+
+    private static final boolean ENABLED = false;
 
     // private static final String BUS_URL="wetag:///group:ibus";
     //    
@@ -65,43 +65,43 @@ public class BustClientTest extends TestCase {
     // Bus bus=facade.getBus();
     // assertNotNull(bus.getAllIPlugs());
     // }
-    
+
     /**
      * @throws IOException
      */
     public void testGetRemoteBus() throws IOException {
-        if(!ENABLED) {
+        if (!ENABLED) {
             System.out.println("skipping testGetRemoteBus");
-            return ;
+            return;
         }
-        
-        BusClient facade = BusClient.instance();
+
+        BusClient client = BusClient.instance();
         String busUrl = "wetag:///IBUS-SERVER-INDERECKE:IBus-inderecke";
         String jxtaConf = "/de/ingrid/localtest.jxta.conf.xml";
-        facade.setBusUrl(busUrl);
-        facade.setJxtaConfigurationPath(jxtaConf);
+        client.setBusUrl(busUrl);
+        client.setJxtaConfigurationPath(jxtaConf);
 
-        Bus bus = facade.getBus();
+        Bus bus = client.getBus();
         assertNotNull(bus);
         assertNull(bus.getIPlug("nixIplug"));
 
-        facade.setJxtaConfigurationPath("/irgendwas/falsches.ccp");
+        client.setJxtaConfigurationPath("/irgendwas/falsches.ccp");
         try {
-            facade.reconnect();
+            client.reconnect();
             fail("jxta conf not exists");
         } catch (RuntimeException e) {
             //            
         }
 
-        facade.setJxtaConfigurationPath(jxtaConf);
-        facade.reconnect();
-        bus = BusClient.instance().getBus();
+        client.setJxtaConfigurationPath(jxtaConf);
+        bus = client.reconnect();
         assertNotNull(bus);
         assertNull(bus.getIPlug("nixIplug"));
 
-        facade.shutdown();
-        PeerService peerService = (PeerService) facade.getCommunication();
-        deleteDirectoryRec(peerService.getJxtaHome());
+        PeerService peerService = (PeerService) client.getCommunication();
+        String jxtaHome = peerService.getJxtaHome();
+        client.shutdown();
+        deleteDirectoryRec(jxtaHome);
     }
 
     private static void deleteDirectoryRec(String dirPath) {

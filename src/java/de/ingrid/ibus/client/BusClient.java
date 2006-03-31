@@ -15,6 +15,16 @@ import de.ingrid.ibus.Bus;
 /**
  * A facade of a {@link de.ingrid.ibus.Bus} for easier access.
  * 
+ * Usage:<br/> 
+ * 
+ * Bus bus=BusClient.instance().getBus();
+ * try{
+ *       bus.search(query,10,0,10000,10);
+ * }catch(Exception e) {
+ *      bus=BusClient.instance().reconnect();
+ *      bus.search(query,10,0,10000,10);
+ * }
+ * 
  * <p/>created on 30.03.2006
  * 
  * @version $Revision: $
@@ -67,10 +77,12 @@ public class BusClient extends BusClientConfiguration {
 
     /**
      * Reconnect this facade and it bus object to the ibus server.
+     * @return the reconnected bus
      */
-    public void reconnect() {
+    public Bus reconnect() {
         shutdown();
         initBus();
+        return this.fBus;
     }
 
     /**
