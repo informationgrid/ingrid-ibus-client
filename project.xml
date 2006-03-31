@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance.xsd" xsi:noNamespaceSchemaLocation="http://maven.apache.org/xsd/maven-project-3.0.0.xsd">
+	<pomVersion>3</pomVersion>
+	<artifactId>ingrid-ibus-facade</artifactId>
+	<name>ingrid-ibus-facade</name>
+	<groupId>ingrid</groupId>
+	<currentVersion>0.1-SNAPSHOT</currentVersion>
+	<inceptionYear>2005</inceptionYear>
+	<logo>/images/logo.gif</logo>
+	<shortDescription>a facade for easier acces to ibus</shortDescription>
+	<issueTrackingUrl>http://jira.media-style.com/browse/INGRID</issueTrackingUrl>
+	<siteAddress>http://torwald.gistec-online.de/ingrid/ingrid-ibus-facade</siteAddress>
+	<siteDirectory>/srv/www/htdocs/ingrid/ingrid-ibus</siteDirectory>
+	<mailingLists>
+		<mailingList>
+			<name>${pom.name} Dev List</name>
+		</mailingList>
+		<mailingList>
+			<name>${pom.name} User List</name>
+		</mailingList>
+		<repository>
+			<connection>scm:svn:http://torwald.gistec-online.de/svn/ingrid:ingrid-ibus</connection>
+		</repository>
+	</mailingLists>
+	<developers>
+		<developer>
+			<id>sg</id>
+			<name>Stefan Groschupf</name>
+			<email>sg(at)media-style.com</email>
+			<organization>media style GmbH</organization>
+			<organizationUrl>http://www.media-style.com</organizationUrl>
+			<roles>
+				<role>project leader</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>fh</id>
+			<name>Frank Henze</name>
+			<email>fh(at)media-style.com</email>
+			<organization>media style GmbH</organization>
+			<organizationUrl>http://www.media-style.com</organizationUrl>
+			<roles>
+				<role>project leader</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>mb</id>
+			<name>Marko Bauhardt</name>
+			<email>mb(at)media-style.com</email>
+			<organization>media style GmbH</organization>
+			<organizationUrl>http://www.media-style.com</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>ms</id>
+			<name>Martin Schaaf</name>
+			<email>ms(at)media(stripe)style(dot)com</email>
+			<organization>media style GmbH</organization>
+			<organizationUrl>http://www.media-style.com</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+<dependencies>
+		<dependency>
+			<groupId>ingrid</groupId>
+			<artifactId>ingrid-utils</artifactId>
+			<version>0.1-SNAPSHOT</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>ingrid</groupId>
+			<artifactId>ingrid-ibus</artifactId>
+			<version>0.1-SNAPSHOT</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>weta</groupId>
+			<artifactId>weta-g</artifactId>
+			<version>SNAPSHOT</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>weta-components</groupId>
+			<artifactId>communication</artifactId>
+			<version>SNAPSHOT</version>
+			<type>jar</type>
+		</dependency>
+		<!-- 		<dependency>
+			<groupId>weta-components</groupId>
+			<artifactId>communication-sockets</artifactId>
+			<version>SNAPSHOT</version>
+			<type>jar</type>
+			</dependency>-->
+		<dependency>
+			<groupId>weta-components</groupId>
+			<artifactId>remote-proxies</artifactId>
+			<version>SNAPSHOT</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>weta-components</groupId>
+			<artifactId>communication-jxta</artifactId>
+			<version>SNAPSHOT</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>jxta</groupId>
+			<artifactId>jxta</artifactId>
+			<version>2.3.4</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>jxta</groupId>
+			<artifactId>jxtaext</artifactId>
+			<version>2.3.4</version>
+			<type>jar</type>
+		</dependency>
+		<!--  seems not to be needed when using newest communication-jxta-->
+		<!-- <dependency>
+			<groupId>jal</groupId>
+			<artifactId>jal</artifactId>
+			<version>0.4</version>
+			<type>jar</type>
+		</dependency> -->
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>2.1_3</version>
+			<type>jar</type>
+			<url>http://ibiblio.org/maven</url>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.0.2</version>
+			<type>jar</type>
+			<url>http://jakarta.apache.org/commons/logging/</url>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.8</version>
+			<type>jar</type>
+			<url>http://ibiblio.org/maven</url>
+		</dependency>
+		<dependency>
+			<groupId>jaxen</groupId>
+			<artifactId>jaxen</artifactId>
+			<version>1.1-beta-4</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>b10</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>bouncycastle</groupId>
+			<artifactId>bcprov</artifactId>
+			<version>jdk14-124</version>
+			<type>jar</type>
+		</dependency>
+	</dependencies>
+	<build>
+		<sourceDirectory>src/java</sourceDirectory>
+		<unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+		<unitTest>
+			<includes>
+				<include>**/*Test.java</include>
+			</includes>
+		</unitTest>
+		<resources>
+			<resource>
+				<directory>src/conf/</directory>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+	</build>
+	<reports>
+		<report>maven-junit-report-plugin</report>
+		<report>maven-jcoverage-plugin</report>
+		<report>maven-simian-plugin</report>
+		<report>maven-javadoc-plugin</report>
+		<report>maven-pmd-plugin</report>
+		<report>maven-changes-plugin</report>
+		<report>maven-developer-activity-plugin</report>
+		<report>maven-file-activity-plugin</report>
+		<report>maven-jdepend-plugin</report>
+		<report>maven-tasklist-plugin</report>
+		<report>maven-license-plugin</report>
+		<report>maven-checkstyle-plugin</report>
+		<report>maven-jxr-plugin</report>
+		<report>maven-changelog-plugin</report>
+	</reports>
+	<properties />
+</project>
