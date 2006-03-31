@@ -77,6 +77,7 @@ public class BusClient extends BusClientConfiguration {
      * @return the reconnected bus
      */
     public Bus reconnect() {
+        fLogger.info("reconnect bus client");
         shutdown();
         initBus();
         return this.fBus;
@@ -94,7 +95,7 @@ public class BusClient extends BusClientConfiguration {
         if (this.fCommunication instanceof PeerService) {
             try {
                 ((PeerService) this.fCommunication).shutdown();
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalStateException e) {
                 fLogger.warn("shutdown communication: communication was already shut down");
             }
         }
@@ -135,5 +136,19 @@ public class BusClient extends BusClientConfiguration {
      */
     public void setCommunication(ICommunication communication) {
         this.fCommunication = communication;
+    }
+
+    /**
+     * @return the proxy service
+     */
+    public ProxyService getProxyService() {
+        return this.fProxyService;
+    }
+
+    /**
+     * @param proxyService
+     */
+    public void setProxyService(ProxyService proxyService) {
+        this.fProxyService = proxyService;
     }
 }
