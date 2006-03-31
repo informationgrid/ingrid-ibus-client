@@ -28,7 +28,7 @@ public class BusClientConfiguration {
     /**
      * The name of the configuration file for this facade.
      */
-    public static final String CONFIG_FILE_PATH = "/ibus-facade.properties";
+    public static final String CONFIG_FILE_PATH = "/ibus-client.properties";
 
     /**
      * The key of the bus-url configuration property.
