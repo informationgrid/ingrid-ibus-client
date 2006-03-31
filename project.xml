@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance.xsd" xsi:noNamespaceSchemaLocation="http://maven.apache.org/xsd/maven-project-3.0.0.xsd">
 	<pomVersion>3</pomVersion>
-	<artifactId>ingrid-ibus-facade</artifactId>
-	<name>ingrid-ibus-facade</name>
+	<artifactId>ingrid-ibus-client</artifactId>
+	<name>ingrid-ibus-client</name>
 	<groupId>ingrid</groupId>
 	<currentVersion>0.1-SNAPSHOT</currentVersion>
 	<inceptionYear>2005</inceptionYear>
@@ -10,7 +10,7 @@
 	<shortDescription>a facade for easier acces to ibus</shortDescription>
 	<issueTrackingUrl>http://jira.media-style.com/browse/INGRID</issueTrackingUrl>
 	<siteAddress>http://torwald.gistec-online.de/ingrid/ingrid-ibus-facade</siteAddress>
-	<siteDirectory>/srv/www/htdocs/ingrid/ingrid-ibus</siteDirectory>
+	<siteDirectory>/srv/www/htdocs/ingrid/ingrid-ibus-client</siteDirectory>
 	<mailingLists>
 		<mailingList>
 			<name>${pom.name} Dev List</name>
@@ -179,7 +179,8 @@
 		<resources>
 			<resource>
 				<directory>src/conf/</directory>
-				<filtering>false</filtering>
+				<excludes>src/conf/ibus-client.properties</excludes>
+				<excludes>jxta.conf.xml</excludes>
 			</resource>
 		</resources>
 	</build>
