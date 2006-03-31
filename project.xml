@@ -11,6 +11,9 @@
 	<issueTrackingUrl>http://jira.media-style.com/browse/INGRID</issueTrackingUrl>
 	<siteAddress>http://torwald.gistec-online.de/ingrid/ingrid-ibus-facade</siteAddress>
 	<siteDirectory>/srv/www/htdocs/ingrid/ingrid-ibus-client</siteDirectory>
+	<repository>
+        <connection>scm:svn:http://torwald.gistec-online.de/svn/ingrid:ingrid-ibus-client</connection>
+    </repository>
 	<mailingLists>
 		<mailingList>
 			<name>${pom.name} Dev List</name>
@@ -66,7 +69,7 @@
 			</roles>
 		</developer>
 	</developers>
-<dependencies>
+	<dependencies>
 		<dependency>
 			<groupId>ingrid</groupId>
 			<artifactId>ingrid-utils</artifactId>
@@ -127,7 +130,7 @@
 			<artifactId>jal</artifactId>
 			<version>0.4</version>
 			<type>jar</type>
-		</dependency> -->
+			</dependency> -->
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib-nodep</artifactId>
