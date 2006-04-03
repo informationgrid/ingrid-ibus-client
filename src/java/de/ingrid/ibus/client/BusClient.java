@@ -3,6 +3,7 @@
  */
 package de.ingrid.ibus.client;
 
+import java.io.File;
 import java.io.IOException;
 
 import net.weta.components.communication.ICommunication;
@@ -37,6 +38,8 @@ public class BusClient extends BusClientConfiguration {
     private ProxyService fProxyService;
 
     private static BusClient fInstance;
+    
+    private String jxtaHome = null;
 
     private BusClient() throws IOException {
         loadFromFile();
@@ -105,6 +108,7 @@ public class BusClient extends BusClientConfiguration {
     private void initBus() {
         try {
             this.fCommunication = startJxtaCommunication(getJxtaConfigurationPath());
+            this.jxtaHome = ((PeerService)this.fCommunication).getJxtaHome();
             this.fCommunication.subscribeGroup(getBusUrl());
 
             // start the proxy server
@@ -151,4 +155,41 @@ public class BusClient extends BusClientConfiguration {
     public void setProxyService(ProxyService proxyService) {
         this.fProxyService = proxyService;
     }
+    
+    /**
+     * Remove the clients JXTA home directory
+     * 
+     */
+    public void removeJXTAHome() {
+        if (this.jxtaHome != null) {
+            deleteDirectoryRec(this.jxtaHome);
+        }
+    }
+
+    /**
+     * Helper. Remove directory recursivly.
+     * 
+     * @param dirPath
+     */
+    private static void deleteDirectoryRec(String dirPath) {
+        File dir = new File(dirPath);
+        if (dir.exists()) {
+            String[] files = dir.list();
+            for (int i = 0; i < files.length; i++) {
+                File file = new File(dir, files[i]);
+                if (file.isDirectory()) {
+                    deleteDirectoryRec(file.getAbsolutePath());
+                } else {
+                    if (!file.delete()) {
+                        System.out.println("Cannot delete file: " + file.getAbsolutePath());
+                    }
+                }
+            }
+            if (!dir.delete()) {
+                System.out.println("Cannot delete directory: " + dir.getAbsolutePath());
+            }
+        }
+    }
+    
+    
 }
