@@ -28,7 +28,7 @@ public class BustClientTest extends TestCase {
     /**
      * @throws Throwable
      */
-    public void testZombieThreafs() throws Throwable {
+    public void testZombieThreads() throws Throwable {
         if (!ENABLED) {
             System.out.println("skipping testZombieThreads");
             return;
@@ -44,7 +44,7 @@ public class BustClientTest extends TestCase {
         assertNotNull(bus);
 
         client.shutdown();
-        Thread.sleep(1000);
+        assertTrue(Thread.currentThread().getThreadGroup().activeCount() < 20);
         printThreadStatistic();
     }
 

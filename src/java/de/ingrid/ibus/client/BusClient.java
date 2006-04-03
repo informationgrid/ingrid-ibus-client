@@ -38,7 +38,7 @@ public class BusClient extends BusClientConfiguration {
     private ProxyService fProxyService;
 
     private static BusClient fInstance;
-    
+
     private String jxtaHome = null;
 
     private BusClient() throws IOException {
@@ -82,6 +82,12 @@ public class BusClient extends BusClientConfiguration {
     public Bus reconnect() {
         fLogger.info("reconnect bus client");
         shutdown();
+        try {
+            // TODO figure out if really needed/enough/better way
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            fLogger.warn("sleep interupted");
+        }
         initBus();
         return this.fBus;
     }
@@ -108,7 +114,7 @@ public class BusClient extends BusClientConfiguration {
     private void initBus() {
         try {
             this.fCommunication = startJxtaCommunication(getJxtaConfigurationPath());
-            this.jxtaHome = ((PeerService)this.fCommunication).getJxtaHome();
+            this.jxtaHome = ((PeerService) this.fCommunication).getJxtaHome();
             this.fCommunication.subscribeGroup(getBusUrl());
 
             // start the proxy server
@@ -155,7 +161,7 @@ public class BusClient extends BusClientConfiguration {
     public void setProxyService(ProxyService proxyService) {
         this.fProxyService = proxyService;
     }
-    
+
     /**
      * Remove the clients JXTA home directory
      * 
@@ -190,6 +196,5 @@ public class BusClient extends BusClientConfiguration {
             }
         }
     }
-    
-    
+
 }
