@@ -44,8 +44,9 @@ public class BustClientTest extends TestCase {
         assertNotNull(bus);
 
         client.shutdown();
-        assertTrue(Thread.currentThread().getThreadGroup().activeCount() < 20);
         printThreadStatistic();
+        Thread.sleep(2000);
+        assertTrue(Thread.currentThread().getThreadGroup().activeCount() < 25);
     }
 
     private void printThreadStatistic() {
@@ -153,42 +154,42 @@ public class BustClientTest extends TestCase {
     // this.peerService.shutdown();
     // }
 
-    // public void testGetBus() throws IOException {
-    // Facade facade=Facade.instance();
-    // facade.setBusUrl(BUS_URL);
-    // facade.setJxtaConfigurationPath(FACADE_JXTA_CONFIG);
-    // Bus bus=facade.getBus();
-    // assertNotNull(bus.getAllIPlugs());
-    // }
+//     public void testGetBus() throws IOException {
+//     Facade facade=Facade.instance();
+//     facade.setBusUrl(BUS_URL);
+//     facade.setJxtaConfigurationPath(FACADE_JXTA_CONFIG);
+//     Bus bus=facade.getBus();
+//     assertNotNull(bus.getAllIPlugs());
+//     }
 
-    // public void testGetTorwaldBus() throws IOException {
-    // BusClient client = BusClient.instance();
-    // String jxtaConf = "/jxta.conf.xml";
-    // client.setJxtaConfigurationPath(jxtaConf);
-    //
-    // Bus bus = client.getBus();
-    // assertNotNull(bus);
-    // assertNull(bus.getIPlug("nixIplug"));
-    //
-    // client.setJxtaConfigurationPath("/irgendwas/falsches.ccp");
-    // try {
-    // client.reconnect();
-    // fail("jxta conf not exists");
-    // } catch (RuntimeException e) {
-    // //
-    // }
-    //
-    // client.setJxtaConfigurationPath(jxtaConf);
-    // bus = client.reconnect();
-    // assertNotNull(bus);
-    // assertNull(bus.getIPlug("nixIplug"));
-    //
-    // PeerService peerService = (PeerService) client.getCommunication();
-    // String jxtaHome = peerService.getJxtaHome();
-    // client.shutdown();
-    // deleteDirectoryRec(jxtaHome);
-    //
-    // }
+//     public void testGetTorwaldBus() throws IOException {
+//     BusClient client = BusClient.instance();
+//     String jxtaConf = "/jxta.conf.xml";
+//     client.setJxtaConfigurationPath(jxtaConf);
+//    
+//     Bus bus = client.getBus();
+//     assertNotNull(bus);
+//     assertNull(bus.getIPlug("nixIplug"));
+//    
+//     client.setJxtaConfigurationPath("/irgendwas/falsches.ccp");
+//     try {
+//     client.reconnect();
+//     fail("jxta conf not exists");
+//     } catch (RuntimeException e) {
+//     //
+//     }
+//    
+//     client.setJxtaConfigurationPath(jxtaConf);
+//     bus = client.reconnect();
+//     assertNotNull(bus);
+//     assertNull(bus.getIPlug("nixIplug"));
+//    
+//     PeerService peerService = (PeerService) client.getCommunication();
+//     String jxtaHome = peerService.getJxtaHome();
+//     client.shutdown();
+//     deleteDirectoryRec(jxtaHome);
+//    
+//     }
 
     // private static void setPeerServiceVariables(AbstractJxtaConfiguration p,
     // String jh, int tcpPort, int httpPort) {

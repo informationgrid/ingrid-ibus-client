@@ -82,12 +82,6 @@ public class BusClient extends BusClientConfiguration {
     public Bus reconnect() {
         fLogger.info("reconnect bus client");
         shutdown();
-        try {
-            // TODO figure out if really needed/enough/better way
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            fLogger.warn("sleep interupted");
-        }
         initBus();
         return this.fBus;
     }
@@ -96,6 +90,10 @@ public class BusClient extends BusClientConfiguration {
      * Closes the bus and shutdown it communication.
      */
     public void shutdown() {
+        if(this.fBus==null) {
+            return ;
+        }
+        fLogger.info("shutting the ibus client down...");
         this.fBus = null;
         if (this.fProxyService != null) {
             this.fProxyService.shutdown();
@@ -111,7 +109,24 @@ public class BusClient extends BusClientConfiguration {
         this.fCommunication = null;
     }
 
+//    private void printThreadStatistics() {
+//        System.out.println("---------------------------------");
+//        System.out.println("threads:" + Thread.currentThread().getThreadGroup().activeCount());
+//        ThreadGroup[] threadGroups = new ThreadGroup[Thread.currentThread().getThreadGroup().activeGroupCount()];
+//        Thread.currentThread().getThreadGroup().enumerate(threadGroups);
+//        for (int i = 0; i < threadGroups.length; i++) {
+//            System.out.println(threadGroups[i].getName() + " - " + threadGroups[i].activeCount());
+//            Thread[] threads = new Thread[threadGroups[i].activeCount()];
+//            threadGroups[i].enumerate(threads);
+//            for (int j = 0; j < threads.length; j++) {
+//                System.out.println("     " + threads[j].getName());
+//            }
+//        }
+//        System.out.println("---------------------------------");
+//    }
+
     private void initBus() {
+        fLogger.info("initiating the ibus client ...");
         try {
             this.fCommunication = startJxtaCommunication(getJxtaConfigurationPath());
             this.jxtaHome = ((PeerService) this.fCommunication).getJxtaHome();
@@ -195,6 +210,11 @@ public class BusClient extends BusClientConfiguration {
                 System.out.println("Cannot delete directory: " + dir.getAbsolutePath());
             }
         }
+    }
+    
+    protected void finalize() throws Throwable {
+        shutdown();
+        super.finalize();
     }
 
 }
