@@ -91,7 +91,7 @@ public class BustClientTest extends TestCase {
         }
 
         client.setJxtaConfigurationPath(jxtaConf);
-        bus = client.reconnect();
+        bus = (Bus) client.reconnect();
         assertNotNull(bus);
         assertNull(bus.getIPlug("nixIplug"));
 

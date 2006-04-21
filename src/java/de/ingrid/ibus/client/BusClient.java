@@ -32,7 +32,7 @@ import de.ingrid.utils.IBus;
  */
 public class BusClient extends BusClientConfiguration {
 
-    private Bus fBus;
+    private IBus fBus;
 
     private ICommunication fCommunication;
 
@@ -58,7 +58,6 @@ public class BusClient extends BusClientConfiguration {
     }
 
     /**
-     * TODO not better return IBus?
      * 
      * @return the bus
      * @throws IOException
@@ -80,7 +79,7 @@ public class BusClient extends BusClientConfiguration {
      * 
      * @return the reconnected bus
      */
-    public Bus reconnect() {
+    public IBus reconnect() {
         fLogger.info("reconnect bus client");
         shutdown();
         initBus();
@@ -91,8 +90,8 @@ public class BusClient extends BusClientConfiguration {
      * Closes the bus and shutdown it communication.
      */
     public void shutdown() {
-        if(this.fBus==null) {
-            return ;
+        if (this.fBus == null) {
+            return;
         }
         fLogger.info("shutting the ibus client down...");
         this.fBus = null;
@@ -110,21 +109,24 @@ public class BusClient extends BusClientConfiguration {
         this.fCommunication = null;
     }
 
-//    private void printThreadStatistics() {
-//        System.out.println("---------------------------------");
-//        System.out.println("threads:" + Thread.currentThread().getThreadGroup().activeCount());
-//        ThreadGroup[] threadGroups = new ThreadGroup[Thread.currentThread().getThreadGroup().activeGroupCount()];
-//        Thread.currentThread().getThreadGroup().enumerate(threadGroups);
-//        for (int i = 0; i < threadGroups.length; i++) {
-//            System.out.println(threadGroups[i].getName() + " - " + threadGroups[i].activeCount());
-//            Thread[] threads = new Thread[threadGroups[i].activeCount()];
-//            threadGroups[i].enumerate(threads);
-//            for (int j = 0; j < threads.length; j++) {
-//                System.out.println("     " + threads[j].getName());
-//            }
-//        }
-//        System.out.println("---------------------------------");
-//    }
+    // private void printThreadStatistics() {
+    // System.out.println("---------------------------------");
+    // System.out.println("threads:" +
+    // Thread.currentThread().getThreadGroup().activeCount());
+    // ThreadGroup[] threadGroups = new
+    // ThreadGroup[Thread.currentThread().getThreadGroup().activeGroupCount()];
+    // Thread.currentThread().getThreadGroup().enumerate(threadGroups);
+    // for (int i = 0; i < threadGroups.length; i++) {
+    // System.out.println(threadGroups[i].getName() + " - " +
+    // threadGroups[i].activeCount());
+    // Thread[] threads = new Thread[threadGroups[i].activeCount()];
+    // threadGroups[i].enumerate(threads);
+    // for (int j = 0; j < threads.length; j++) {
+    // System.out.println(" " + threads[j].getName());
+    // }
+    // }
+    // System.out.println("---------------------------------");
+    // }
 
     private void initBus() {
         fLogger.info("initiating the ibus client ...");
@@ -212,7 +214,7 @@ public class BusClient extends BusClientConfiguration {
             }
         }
     }
-    
+
     protected void finalize() throws Throwable {
         shutdown();
         super.finalize();
