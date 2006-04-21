@@ -30,7 +30,7 @@ public class BustClientTest extends TestCase {
      */
     public void testZombieThreads() throws Throwable {
         if (!ENABLED) {
-            System.out.println("skipping testZombieThreads");
+            System.out.println("skipping " + getName());
             return;
         }
         BusClient client = BusClient.instance();
@@ -40,7 +40,7 @@ public class BustClientTest extends TestCase {
         client.setJxtaConfigurationPath(jxtaConf);
 
         printThreadStatistic();
-        Bus bus = client.getBus();
+        Bus bus = (Bus) client.getBus();
         assertNotNull(bus);
 
         client.shutdown();
@@ -68,7 +68,7 @@ public class BustClientTest extends TestCase {
      */
     public void testGetRemoteBus() throws IOException {
         if (!ENABLED) {
-            System.out.println("skipping testGetRemoteBus");
+            System.out.println("skipping " + getName());
             return;
         }
 
@@ -78,7 +78,7 @@ public class BustClientTest extends TestCase {
         client.setBusUrl(busUrl);
         client.setJxtaConfigurationPath(jxtaConf);
 
-        Bus bus = client.getBus();
+        Bus bus = (Bus) client.getBus();
         assertNotNull(bus);
         assertNull(bus.getIPlug("nixIplug"));
 
@@ -154,42 +154,42 @@ public class BustClientTest extends TestCase {
     // this.peerService.shutdown();
     // }
 
-//     public void testGetBus() throws IOException {
-//     Facade facade=Facade.instance();
-//     facade.setBusUrl(BUS_URL);
-//     facade.setJxtaConfigurationPath(FACADE_JXTA_CONFIG);
-//     Bus bus=facade.getBus();
-//     assertNotNull(bus.getAllIPlugs());
-//     }
+    // public void testGetBus() throws IOException {
+    // Facade facade=Facade.instance();
+    // facade.setBusUrl(BUS_URL);
+    // facade.setJxtaConfigurationPath(FACADE_JXTA_CONFIG);
+    // Bus bus=facade.getBus();
+    // assertNotNull(bus.getAllIPlugs());
+    // }
 
-//     public void testGetTorwaldBus() throws IOException {
-//     BusClient client = BusClient.instance();
-//     String jxtaConf = "/jxta.conf.xml";
-//     client.setJxtaConfigurationPath(jxtaConf);
-//    
-//     Bus bus = client.getBus();
-//     assertNotNull(bus);
-//     assertNull(bus.getIPlug("nixIplug"));
-//    
-//     client.setJxtaConfigurationPath("/irgendwas/falsches.ccp");
-//     try {
-//     client.reconnect();
-//     fail("jxta conf not exists");
-//     } catch (RuntimeException e) {
-//     //
-//     }
-//    
-//     client.setJxtaConfigurationPath(jxtaConf);
-//     bus = client.reconnect();
-//     assertNotNull(bus);
-//     assertNull(bus.getIPlug("nixIplug"));
-//    
-//     PeerService peerService = (PeerService) client.getCommunication();
-//     String jxtaHome = peerService.getJxtaHome();
-//     client.shutdown();
-//     deleteDirectoryRec(jxtaHome);
-//    
-//     }
+    // public void testGetTorwaldBus() throws IOException {
+    // BusClient client = BusClient.instance();
+    // String jxtaConf = "/jxta.conf.xml";
+    // client.setJxtaConfigurationPath(jxtaConf);
+    //    
+    // Bus bus = client.getBus();
+    // assertNotNull(bus);
+    // assertNull(bus.getIPlug("nixIplug"));
+    //    
+    // client.setJxtaConfigurationPath("/irgendwas/falsches.ccp");
+    // try {
+    // client.reconnect();
+    // fail("jxta conf not exists");
+    // } catch (RuntimeException e) {
+    // //
+    // }
+    //    
+    // client.setJxtaConfigurationPath(jxtaConf);
+    // bus = client.reconnect();
+    // assertNotNull(bus);
+    // assertNull(bus.getIPlug("nixIplug"));
+    //    
+    // PeerService peerService = (PeerService) client.getCommunication();
+    // String jxtaHome = peerService.getJxtaHome();
+    // client.shutdown();
+    // deleteDirectoryRec(jxtaHome);
+    //    
+    // }
 
     // private static void setPeerServiceVariables(AbstractJxtaConfiguration p,
     // String jh, int tcpPort, int httpPort) {

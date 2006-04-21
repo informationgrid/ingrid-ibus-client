@@ -12,6 +12,7 @@ import net.weta.components.peer.StartJxtaConfig;
 import net.weta.components.proxies.ProxyService;
 import net.weta.components.proxies.remote.RemoteInvocationController;
 import de.ingrid.ibus.Bus;
+import de.ingrid.utils.IBus;
 
 /**
  * A facade of a {@link de.ingrid.ibus.Bus} for easier access.
@@ -62,7 +63,7 @@ public class BusClient extends BusClientConfiguration {
      * @return the bus
      * @throws IOException
      */
-    public Bus getBus() throws IOException {
+    public IBus getBus() throws IOException {
         if (this.fBus == null) {
             if (getBusUrl() == null) {
                 loadFromFile();
