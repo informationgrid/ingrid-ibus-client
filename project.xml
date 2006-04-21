@@ -80,12 +80,6 @@
 			<type>jar</type>
 		</dependency>
 		<dependency>
-			<groupId>weta</groupId>
-			<artifactId>weta-g</artifactId>
-			<version>SNAPSHOT</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
 			<groupId>weta-components</groupId>
 			<artifactId>communication</artifactId>
 			<version>SNAPSHOT</version>
@@ -112,22 +106,9 @@
 		<dependency>
 			<groupId>jxta</groupId>
 			<artifactId>jxta</artifactId>
-			<version>2.3.4</version>
+			<version>2.3.6</version>
 			<type>jar</type>
 		</dependency>
-		<dependency>
-			<groupId>jxta</groupId>
-			<artifactId>jxtaext</artifactId>
-			<version>2.3.4</version>
-			<type>jar</type>
-		</dependency>
-		<!--  seems not to be needed when using newest communication-jxta-->
-		<!-- <dependency>
-			<groupId>jal</groupId>
-			<artifactId>jal</artifactId>
-			<version>0.4</version>
-			<type>jar</type>
-			</dependency> -->
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib-nodep</artifactId>
@@ -138,7 +119,7 @@
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-			<version>1.0.2</version>
+			<version>1.0.4</version>
 			<type>jar</type>
 			<url>http://jakarta.apache.org/commons/logging/</url>
 		</dependency>
