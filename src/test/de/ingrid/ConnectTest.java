@@ -38,21 +38,21 @@ public class ConnectTest extends TestCase {
 
     private static final boolean ENABLED = false;
     
-    /**
-     * @throws IOException
-     */
-    public void testConnectToTorwaldOverProxy() throws IOException {
-      
-        BusClient client = BusClient.instance();
-        String busUrl = "/torwald-ibus:ibus-torwald";
-        String jxtaConf = "/de/ingrid/torwald.proxy.jxta.properties";
-        client.setBusUrl(busUrl);
-        client.setJxtaConfigurationPath(jxtaConf);
-        
-
-        IBus bus = client.getBus();
-        assertNotNull(bus);
-    }
+//    /**
+//     * @throws IOException
+//     */
+//    public void testConnectToTorwaldOverProxy() throws IOException {
+//      
+//        BusClient client = BusClient.instance();
+//        String busUrl = "/torwald-ibus:ibus-torwald";
+//        String jxtaConf = "/de/ingrid/torwald.proxy.jxta.properties";
+//        client.setBusUrl(busUrl);
+//        client.setJxtaConfigurationPath(jxtaConf);
+//        
+//
+//        IBus bus = client.getBus();
+//        assertNotNull(bus);
+//    }
 
 
     /**
