@@ -10,6 +10,7 @@ import junit.framework.TestCase;
 import net.weta.components.peer.PeerService;
 import de.ingrid.ibus.Bus;
 import de.ingrid.ibus.client.BusClient;
+import de.ingrid.utils.IBus;
 
 /**
  * Test for {@link de.ingrid.ibus.client.BusClient}.
@@ -162,34 +163,41 @@ public class BustClientTest extends TestCase {
     // assertNotNull(bus.getAllIPlugs());
     // }
 
-    // public void testGetTorwaldBus() throws IOException {
-    // BusClient client = BusClient.instance();
-    // String jxtaConf = "/jxta.conf.xml";
-    // client.setJxtaConfigurationPath(jxtaConf);
-    //    
-    // Bus bus = client.getBus();
-    // assertNotNull(bus);
-    // assertNull(bus.getIPlug("nixIplug"));
-    //    
-    // client.setJxtaConfigurationPath("/irgendwas/falsches.ccp");
-    // try {
-    // client.reconnect();
-    // fail("jxta conf not exists");
-    // } catch (RuntimeException e) {
-    // //
-    // }
-    //    
-    // client.setJxtaConfigurationPath(jxtaConf);
-    // bus = client.reconnect();
-    // assertNotNull(bus);
-    // assertNull(bus.getIPlug("nixIplug"));
-    //    
-    // PeerService peerService = (PeerService) client.getCommunication();
-    // String jxtaHome = peerService.getJxtaHome();
-    // client.shutdown();
-    // deleteDirectoryRec(jxtaHome);
-    //    
-    // }
+     /**
+     * @throws IOException
+     */
+    public void testGetTorwaldBus() throws IOException {
+        if (!ENABLED) {
+            System.out.println("skipping " + getName());
+            return;
+        }
+        BusClient client = BusClient.instance();
+        String jxtaConf = "/de/ingrid/torwald.jxta.properties";
+        client.setJxtaConfigurationPath(jxtaConf);
+
+        IBus bus = client.getBus();
+        assertNotNull(bus);
+        assertNull(bus.getIPlug("nixIplug"));
+
+        client.setJxtaConfigurationPath("/irgendwas/falsches.ccp");
+        try {
+            client.reconnect();
+            fail("jxta conf not exists");
+        } catch (RuntimeException e) {
+            //
+        }
+
+        client.setJxtaConfigurationPath(jxtaConf);
+        bus = client.reconnect();
+        assertNotNull(bus);
+        assertNull(bus.getIPlug("nixIplug"));
+
+        PeerService peerService = (PeerService) client.getCommunication();
+        String jxtaHome = peerService.getJxtaHome();
+        client.shutdown();
+        deleteDirectoryRec(jxtaHome);
+
+    }
 
     // private static void setPeerServiceVariables(AbstractJxtaConfiguration p,
     // String jh, int tcpPort, int httpPort) {

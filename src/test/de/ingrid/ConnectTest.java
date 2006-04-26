@@ -32,23 +32,39 @@ import de.ingrid.utils.IBus;
  * @version $Revision: $
  * @author jz
  * @author $Author: ${lastedit}
- *  
+ * 
  */
 public class ConnectTest extends TestCase {
-    
+
     private static final boolean ENABLED = false;
+    
+    /**
+     * @throws IOException
+     */
+    public void testConnectToTorwaldOverProxy() throws IOException {
+      
+        BusClient client = BusClient.instance();
+        String busUrl = "/torwald-ibus:ibus-torwald";
+        String jxtaConf = "/de/ingrid/torwald.proxy.jxta.properties";
+        client.setBusUrl(busUrl);
+        client.setJxtaConfigurationPath(jxtaConf);
+        
+
+        IBus bus = client.getBus();
+        assertNotNull(bus);
+    }
+
 
     /**
      * @throws IOException
      */
     public void testConnectToTorwald() throws IOException {
-     if (!ENABLED) {
-     System.out.println("skipping " + getName());
-     return;
+        if (!ENABLED) {
+            System.out.println("skipping " + getName());
+            return;
         }
-        BusClient client=BusClient.instance() ;
+        BusClient client = BusClient.instance();
         String busUrl = "/torwald-ibus:ibus-torwald";
-//        String busUrl = "/lear-group:juj";
         String jxtaConf = "/de/ingrid/torwald.jxta.properties";
         client.setBusUrl(busUrl);
         client.setJxtaConfigurationPath(jxtaConf);
@@ -56,7 +72,7 @@ public class ConnectTest extends TestCase {
         IBus bus = client.getBus();
         assertNotNull(bus);
     }
-    
+
     /**
      * @throws IOException
      */
@@ -65,8 +81,8 @@ public class ConnectTest extends TestCase {
             System.out.println("skipping " + getName());
             return;
         }
-        
-        BusClient client=BusClient.instance() ;
+
+        BusClient client = BusClient.instance();
         String busUrl = "/kug-group:kug-ibus";
         String jxtaConf = "/de/ingrid/kug.jxta.properties";
         client.setBusUrl(busUrl);

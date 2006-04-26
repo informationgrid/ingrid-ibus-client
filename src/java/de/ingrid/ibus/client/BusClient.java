@@ -7,11 +7,9 @@ import java.io.File;
 import java.io.IOException;
 
 import net.weta.components.communication.ICommunication;
+import net.weta.components.communication.reflect.ProxyService;
 import net.weta.components.peer.PeerService;
 import net.weta.components.peer.StartJxtaConfig;
-import net.weta.components.proxies.ProxyService;
-import net.weta.components.proxies.remote.RemoteInvocationController;
-import de.ingrid.ibus.Bus;
 import de.ingrid.utils.IBus;
 
 /**
@@ -35,8 +33,6 @@ public class BusClient extends BusClientConfiguration {
     private IBus fBus;
 
     private ICommunication fCommunication;
-
-    private ProxyService fProxyService;
 
     private static BusClient fInstance;
 
@@ -95,10 +91,6 @@ public class BusClient extends BusClientConfiguration {
         }
         fLogger.info("shutting the ibus client down...");
         this.fBus = null;
-        if (this.fProxyService != null) {
-            this.fProxyService.shutdown();
-            this.fProxyService = null;
-        }
         if (this.fCommunication instanceof PeerService) {
             try {
                 ((PeerService) this.fCommunication).shutdown();
@@ -135,13 +127,7 @@ public class BusClient extends BusClientConfiguration {
             this.jxtaHome = ((PeerService) this.fCommunication).getJxtaHome();
             this.fCommunication.subscribeGroup(getBusUrl());
 
-            // start the proxy server
-            this.fProxyService = new ProxyService();
-            this.fProxyService.setCommunication(this.fCommunication);
-            this.fProxyService.startup();
-
-            RemoteInvocationController ric = this.fProxyService.createRemoteInvocationController(getBusUrl());
-            this.fBus = (Bus) ric.invoke(Bus.class, Bus.class.getMethod("getInstance", null), null);
+            this.fBus = (IBus) ProxyService.createProxy(this.fCommunication, IBus.class, getBusUrl());
         } catch (Throwable t) {
             shutdown();
             throw new RuntimeException(t);
@@ -164,20 +150,6 @@ public class BusClient extends BusClientConfiguration {
      */
     public void setCommunication(ICommunication communication) {
         this.fCommunication = communication;
-    }
-
-    /**
-     * @return the proxy service
-     */
-    public ProxyService getProxyService() {
-        return this.fProxyService;
-    }
-
-    /**
-     * @param proxyService
-     */
-    public void setProxyService(ProxyService proxyService) {
-        this.fProxyService = proxyService;
     }
 
     /**
