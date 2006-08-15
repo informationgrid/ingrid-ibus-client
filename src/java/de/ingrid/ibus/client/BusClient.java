@@ -17,9 +17,8 @@ import de.ingrid.utils.IBus;
  * 
  * Usage:<br/>
  * 
- * Bus bus=BusClient.instance().getBus(); try{ bus.search(query,10,0,10000,10);
- * }catch(Exception e) { bus=BusClient.instance().reconnect();
- * bus.search(query,10,0,10000,10); }
+ * Bus bus=BusClient.instance().getBus(); try{ bus.search(query,10,0,10000,10); }catch(Exception e) {
+ * bus=BusClient.instance().reconnect(); bus.search(query,10,0,10000,10); }
  * 
  * <p/>created on 30.03.2006
  * 
@@ -123,9 +122,11 @@ public class BusClient extends BusClientConfiguration {
     private void initBus() {
         fLogger.info("initiating the ibus client ...");
         try {
-            this.fCommunication = startJxtaCommunication(getJxtaConfigurationPath());
+            if (null == this.fCommunication) {
+                this.fCommunication = startJxtaCommunication(getJxtaConfigurationPath());
+                this.fCommunication.subscribeGroup(getBusUrl());
+            }
             this.jxtaHome = ((PeerService) this.fCommunication).getJxtaHome();
-            this.fCommunication.subscribeGroup(getBusUrl());
 
             this.fBus = (IBus) ProxyService.createProxy(this.fCommunication, IBus.class, getBusUrl());
         } catch (Throwable t) {
