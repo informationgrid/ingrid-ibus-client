@@ -16,16 +16,17 @@ import de.ingrid.utils.IBus;
  * A facade of a {@link de.ingrid.ibus.Bus} for easier access.
  * 
  * Usage:<br/>
- * 
- * Bus bus=BusClient.instance().getBus(); try{ bus.search(query,10,0,10000,10); }catch(Exception e) {
- * bus=BusClient.instance().reconnect(); bus.search(query,10,0,10000,10); }
- * 
- * <p/>created on 30.03.2006
+ * Bus bus=BusClient.instance().getBus();<br/>
+ * try{<br/>
+ *  bus.search(query,10,0,10000,10);<br/>
+ * } catch(Exception e) {<br/>
+ *  bus=BusClient.instance().reconnect();<br/>
+ *  bus.search(query,10,0,10000,10);<br/>
+ * }<br/>
  * 
  * @version $Revision: $
  * @author jz
  * @author $Author: ${lastedit}
- * 
  */
 public class BusClient extends BusClientConfiguration {
 
@@ -42,7 +43,8 @@ public class BusClient extends BusClientConfiguration {
     }
 
     /**
-     * @return the bus
+     * A BusClient instance.
+     * @return A BusClient instance.
      * @throws IOException
      */
     public static BusClient instance() throws IOException {
@@ -53,8 +55,8 @@ public class BusClient extends BusClientConfiguration {
     }
 
     /**
-     * 
-     * @return the bus
+     * A bus instance.
+     * @return A bus instance.
      * @throws IOException
      */
     public IBus getBus() throws IOException {
@@ -70,9 +72,9 @@ public class BusClient extends BusClientConfiguration {
     }
 
     /**
-     * Reconnect this facade and it bus object to the ibus server.
+     * Reconnect this facade and its bus object to the ibus server.
      * 
-     * @return the reconnected bus
+     * @return The reconnected bus.
      */
     public IBus reconnect() {
         fLogger.info("reconnect bus client");
@@ -82,7 +84,7 @@ public class BusClient extends BusClientConfiguration {
     }
 
     /**
-     * Closes the bus and shutdown it communication.
+     * Closes the bus and shutdown its communication.
      */
     public void shutdown() {
         if (this.fBus == null) {
@@ -140,22 +142,23 @@ public class BusClient extends BusClientConfiguration {
     }
 
     /**
-     * @return the communication
+     * Returns the used communication.
+     * @return The used communication.
      */
     public ICommunication getCommunication() {
         return this.fCommunication;
     }
 
     /**
-     * @param communication
+     * Set the communication.
+     * @param communication The communication to set.
      */
     public void setCommunication(ICommunication communication) {
         this.fCommunication = communication;
     }
 
     /**
-     * Remove the clients JXTA home directory
-     * 
+     * Remove the clients JXTA home directory.
      */
     public void removeJXTAHome() {
         if (this.jxtaHome != null) {
@@ -163,11 +166,6 @@ public class BusClient extends BusClientConfiguration {
         }
     }
 
-    /**
-     * Helper. Remove directory recursivly.
-     * 
-     * @param dirPath
-     */
     private static void deleteDirectoryRec(String dirPath) {
         File dir = new File(dirPath);
         if (dir.exists()) {

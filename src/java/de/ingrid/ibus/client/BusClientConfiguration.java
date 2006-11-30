@@ -16,12 +16,9 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Holds configuration values which are needed to acces an ibus.
  * 
- * <p/>created on 30.03.2006
- * 
  * @version $Revision: $
  * @author jz
  * @author $Author: ${lastedit}
- * 
  */
 public class BusClientConfiguration {
 
@@ -74,30 +71,34 @@ public class BusClientConfiguration {
     }
 
     /**
-     * @return Returns the busUrl.
+     * Returns the bus url.
+     * @return Returns the bus url.
      */
     public String getBusUrl() {
         return this.fBusUrl;
     }
 
     /**
+     * The bus url to set.
      * @param busUrl
-     *            The busUrl to set.
+     *            The bus url to set.
      */
     public void setBusUrl(String busUrl) {
         this.fBusUrl = busUrl;
     }
 
     /**
-     * @return Returns the jxtaConfigurationPath.
+     * Returns the jxta configuration path.
+     * @return The jxta configuration path.
      */
     public String getJxtaConfigurationPath() {
         return this.fJxtaConfigurationPath;
     }
 
     /**
+     * The jxta configuration path to set.
      * @param jxtaConfigurationPath
-     *            The jxtaConfigurationPath to set.
+     *            The jxta configuration path to set.
      */
     public void setJxtaConfigurationPath(String jxtaConfigurationPath) {
         this.fJxtaConfigurationPath = jxtaConfigurationPath;
@@ -112,11 +113,13 @@ public class BusClientConfiguration {
     }
 
     /**
-     * First lookup in classpath, secondly in physical file system.
+     * Loads a given resource and looks first in the classpath, secondly in the physical
+     * file system.
      * 
      * @param path
-     * @return access to the given resource in form of a input stream
-     * @throws FileNotFoundException
+     *            The resource to load.
+     * @return Access to the given resource in form of a input stream.
+     * @throws FileNotFoundException If the resource isn't found.
      */
     protected InputStream getResource(String path) throws FileNotFoundException {
         fLogger.info("loading resource '" + path + "'");
