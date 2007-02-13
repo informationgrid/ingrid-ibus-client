@@ -59,15 +59,18 @@ public class BusClientConfiguration {
      * @throws IOException
      */
     public void loadFromFile(String configPath) throws IOException {
-        fLogger.info("loading facade configuration from '"+configPath+"'");
+        fLogger.info("try loading facade configuration from '"+configPath+"'");
         InputStream inputStream = BusClient.class.getResourceAsStream(configPath);
         if (inputStream == null) {
-            throw new IllegalStateException("could not find property file '" + configPath + "'");
+            fLogger.warn("could not find property file '" + configPath + "'");
+            this.fBusUrl = "";
+            this.fJxtaConfigurationPath = "";
+        } else {
+          Properties properties = new Properties();
+          properties.load(inputStream);
+          this.fBusUrl = getProperty(properties, CONFIG_BUS_URL);
+          this.fJxtaConfigurationPath = getProperty(properties, CONFIG_JXTA_CONFIGURATION_PATH);
         }
-        Properties properties = new Properties();
-        properties.load(inputStream);
-        this.fBusUrl = getProperty(properties, CONFIG_BUS_URL);
-        this.fJxtaConfigurationPath = getProperty(properties, CONFIG_JXTA_CONFIGURATION_PATH);
     }
 
     /**

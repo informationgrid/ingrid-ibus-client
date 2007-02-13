@@ -140,9 +140,12 @@
 		</unitTest>
 		<resources>
 			<resource>
-				<directory>src/conf/</directory>
-				<excludes>src/conf/ibus-client.properties</excludes>
-				<excludes>jxta.conf.xml</excludes>
+				<directory>src/conf</directory>
+				<excludes>
+					<exclude>
+						ibus-client.properties
+					</exclude>
+				</excludes>
 			</resource>
 		</resources>
 	</build>
