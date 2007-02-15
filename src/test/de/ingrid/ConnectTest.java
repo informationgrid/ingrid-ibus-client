@@ -23,6 +23,10 @@ import java.io.IOException;
 import junit.framework.TestCase;
 import de.ingrid.ibus.client.BusClient;
 import de.ingrid.utils.IBus;
+import de.ingrid.utils.IngridHits;
+import de.ingrid.utils.query.IngridQuery;
+import de.ingrid.utils.queryparser.ParseException;
+import de.ingrid.utils.queryparser.QueryStringParser;
 
 /**
  * Test for connecting to several servers.
@@ -38,31 +42,13 @@ public class ConnectTest extends TestCase {
 
     private static final boolean ENABLED = false;
     
-//    /**
-//     * @throws IOException
-//     */
-//    public void testConnectToTorwaldOverProxy() throws IOException {
-//      
-//        BusClient client = BusClient.instance();
-//        String busUrl = "/torwald-ibus:ibus-torwald";
-//        String jxtaConf = "/de/ingrid/torwald.proxy.jxta.properties";
-//        client.setBusUrl(busUrl);
-//        client.setJxtaConfigurationPath(jxtaConf);
-//        
-//
-//        IBus bus = client.getBus();
-//        assertNotNull(bus);
-//    }
 
 
     /**
      * @throws IOException
+     * @throws ParseException 
      */
-    public void testConnectToTorwald() throws IOException {
-        if (!ENABLED) {
-            System.out.println("skipping " + getName());
-            return;
-        }
+    public void testConnectToTorwald() throws Exception {
         BusClient client = BusClient.instance();
         String busUrl = "/torwald-ibus:ibus-torwald";
         String jxtaConf = "/de/ingrid/torwald.jxta.properties";
@@ -71,25 +57,18 @@ public class ConnectTest extends TestCase {
 
         IBus bus = client.getBus();
         assertNotNull(bus);
-    }
-
-    /**
-     * @throws IOException
-     */
-    public void testConnectToKug() throws IOException {
-        if (!ENABLED) {
-            System.out.println("skipping " + getName());
-            return;
+        
+        String query = "datatype:management management_request_type:1";
+        IngridQuery ingridQuery = QueryStringParser.parse(query);
+        System.err.println("before");
+        IngridHits hits = bus.search(ingridQuery, 0, 0, 10, 120000);
+        for (int i = 0; i < hits.size(); i++) {
+            Object object = hits.get(i);
+            System.out.println(object);
         }
-
-        BusClient client = BusClient.instance();
-        String busUrl = "/kug-group:kug-ibus";
-        String jxtaConf = "/de/ingrid/kug.jxta.properties";
-        client.setBusUrl(busUrl);
-        client.setJxtaConfigurationPath(jxtaConf);
-
-        IBus bus = client.getBus();
-        assertNotNull(bus);
-        client.shutdown();
+        System.err.println("after");
+        System.out.println(bus.toString());
     }
+
+ 
 }

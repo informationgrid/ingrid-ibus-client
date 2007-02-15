@@ -3,14 +3,23 @@
  */
 package de.ingrid.ibus.client;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Properties;
 
 import net.weta.components.communication.ICommunication;
 import net.weta.components.communication.reflect.ProxyService;
 import net.weta.components.peer.PeerService;
 import net.weta.components.peer.StartJxtaConfig;
+import de.ingrid.ibus.Bus;
 import de.ingrid.utils.IBus;
+import de.ingrid.utils.messages.CategorizedKeys;
 
 /**
  * A facade of a {@link de.ingrid.ibus.Bus} for easier access.
@@ -189,6 +198,19 @@ public class BusClient extends BusClientConfiguration {
     protected void finalize() throws Throwable {
         shutdown();
         super.finalize();
+    }
+    
+    public static void main(String[] args) throws IOException {
+      
+        Properties properties = new Properties();
+        File file = new File(System.getProperty("java.io.tmpdir"), "provider.properties");
+        FileOutputStream stream = new FileOutputStream(file, false);
+        properties.store(stream, "");
+        stream.close();
+        FileInputStream stream2 = new FileInputStream(file);
+        CategorizedKeys keys = CategorizedKeys.get("provider.properties", stream2);
+        
+        
     }
 
 }
