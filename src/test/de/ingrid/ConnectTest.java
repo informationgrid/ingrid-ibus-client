@@ -58,14 +58,11 @@ public class ConnectTest extends TestCase {
         IBus bus = client.getBus();
         assertNotNull(bus);
         
-        String query = "datatype:management management_request_type:1";
+        String query = "datatype:default chemie";
         IngridQuery ingridQuery = QueryStringParser.parse(query);
         System.err.println("before");
         IngridHits hits = bus.search(ingridQuery, 0, 0, 10, 120000);
-        for (int i = 0; i < hits.size(); i++) {
-            Object object = hits.get(i);
-            System.out.println(object);
-        }
+       
         System.err.println("after");
         System.out.println(bus.toString());
     }
