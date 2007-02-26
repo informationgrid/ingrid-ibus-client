@@ -41,31 +41,29 @@ import de.ingrid.utils.queryparser.QueryStringParser;
 public class ConnectTest extends TestCase {
 
     private static final boolean ENABLED = false;
-    
-
 
     /**
      * @throws IOException
-     * @throws ParseException 
+     * @throws ParseException
      */
     public void testConnectToTorwald() throws Exception {
-        BusClient client = BusClient.instance();
-        String busUrl = "/torwald-ibus:ibus-torwald";
-        String jxtaConf = "/de/ingrid/torwald.jxta.properties";
-        client.setBusUrl(busUrl);
-        client.setJxtaConfigurationPath(jxtaConf);
+        if (ENABLED) {
+            BusClient client = BusClient.instance();
+            String busUrl = "/torwald-ibus:ibus-torwald";
+            String jxtaConf = "/de/ingrid/torwald.jxta.properties";
+            client.setBusUrl(busUrl);
+            client.setJxtaConfigurationPath(jxtaConf);
 
-        IBus bus = client.getBus();
-        assertNotNull(bus);
-        
-        String query = "datatype:default chemie";
-        IngridQuery ingridQuery = QueryStringParser.parse(query);
-        System.err.println("before");
-        IngridHits hits = bus.search(ingridQuery, 0, 0, 10, 120000);
-       
-        System.err.println("after");
-        System.out.println(bus.toString());
+            IBus bus = client.getBus();
+            assertNotNull(bus);
+
+            String query = "datatype:default chemie";
+            IngridQuery ingridQuery = QueryStringParser.parse(query);
+            System.err.println("before");
+            IngridHits hits = bus.search(ingridQuery, 0, 0, 10, 120000);
+
+            System.err.println("after");
+            System.out.println(bus.toString());
+        }
     }
-
- 
 }
