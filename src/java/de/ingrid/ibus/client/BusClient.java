@@ -15,8 +15,7 @@ import java.util.Properties;
 
 import net.weta.components.communication.ICommunication;
 import net.weta.components.communication.reflect.ProxyService;
-import net.weta.components.peer.PeerService;
-import net.weta.components.peer.StartJxtaConfig;
+import net.weta.components.communication.tcp.StartCommunication;
 import de.ingrid.ibus.Bus;
 import de.ingrid.utils.IBus;
 import de.ingrid.utils.messages.CategorizedKeys;
@@ -101,13 +100,7 @@ public class BusClient extends BusClientConfiguration {
         }
         fLogger.info("shutting the ibus client down...");
         this.fBus = null;
-        if (this.fCommunication instanceof PeerService) {
-            try {
-                ((PeerService) this.fCommunication).shutdown();
-            } catch (IllegalStateException e) {
-                fLogger.warn("shutdown communication: communication was already shut down");
-            }
-        }
+        this.fCommunication.shutdown();
         this.fCommunication = null;
     }
 
@@ -134,10 +127,9 @@ public class BusClient extends BusClientConfiguration {
         fLogger.info("initiating the ibus client ...");
         try {
             if (null == this.fCommunication) {
-                this.fCommunication = startJxtaCommunication(getJxtaConfigurationPath());
+                this.fCommunication = startCommunication(getJxtaConfigurationPath());
                 this.fCommunication.subscribeGroup(getBusUrl());
             }
-            this.jxtaHome = ((PeerService) this.fCommunication).getJxtaHome();
 
             this.fBus = (IBus) ProxyService.createProxy(this.fCommunication, IBus.class, getBusUrl());
         } catch (Throwable t) {
@@ -146,8 +138,10 @@ public class BusClient extends BusClientConfiguration {
         }
     }
 
-    private ICommunication startJxtaCommunication(String fileName) throws Exception {
-        return StartJxtaConfig.start(getResource(fileName));
+    private ICommunication startCommunication(String fileName) throws Exception {
+        ICommunication communication = StartCommunication.create(getResource(fileName));
+        communication.startup();
+        return communication;
     }
 
     /**

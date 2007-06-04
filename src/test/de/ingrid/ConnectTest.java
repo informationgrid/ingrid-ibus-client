@@ -52,7 +52,6 @@ public class ConnectTest extends TestCase {
             String busUrl = "/torwald-ibus:ibus-torwald";
             String jxtaConf = "/de/ingrid/torwald.jxta.properties";
             client.setBusUrl(busUrl);
-            client.setJxtaConfigurationPath(jxtaConf);
 
             IBus bus = client.getBus();
             assertNotNull(bus);

@@ -4,7 +4,7 @@
 	<artifactId>ingrid-ibus-client</artifactId>
 	<name>ingrid-ibus-client</name>
 	<groupId>ingrid</groupId>
-	<currentVersion>0.1-SNAPSHOT</currentVersion>
+	<currentVersion>0.2.0-SNAPSHOT</currentVersion>
 	<inceptionYear>2005</inceptionYear>
 	<logo>/images/logo.gif</logo>
 	<shortDescription>a facade for easier acces to ibus</shortDescription>
@@ -12,7 +12,7 @@
 	<siteAddress>http://213.144.28.209/ingrid/ingrid-ibus-facade</siteAddress>
 	<siteDirectory>/srv/www/htdocs/ingrid/ingrid-ibus-client</siteDirectory>
 	<repository>
-        <connection>scm:svn:https://127.0.0.1:444/svn/ingrid/ingrid-ibus-client/trunk</connection>
+        <connection>scm:svn:https://127.0.0.1:444/svn/ingrid/ingrid-ibus-client/branches/ingrid-ibus-client-sockets</connection>
     </repository>
 	<mailingLists>
 		<mailingList>
@@ -80,30 +80,6 @@
 			<type>jar</type>
 		</dependency>
 		<dependency>
-			<groupId>weta-components</groupId>
-			<artifactId>communication</artifactId>
-			<version>SNAPSHOT</version>
-			<type>jar</type>
-		</dependency>
-		<!-- 		<dependency>
-			<groupId>weta-components</groupId>
-			<artifactId>communication-sockets</artifactId>
-			<version>SNAPSHOT</version>
-			<type>jar</type>
-			</dependency>-->
-		<dependency>
-			<groupId>weta-components</groupId>
-			<artifactId>communication-jxta</artifactId>
-			<version>SNAPSHOT</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>jxta</groupId>
-			<artifactId>jxta</artifactId>
-			<version>2.3.6</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.0.4</version>
@@ -124,10 +100,9 @@
 			<type>jar</type>
 		</dependency>
 		<dependency>
-			<groupId>bouncycastle</groupId>
-			<artifactId>bcprov</artifactId>
-			<version>jdk14-124</version>
-			<type>jar</type>
+			<groupId>ingrid</groupId>
+			<artifactId>ingrid-communication</artifactId>
+			<version>0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>

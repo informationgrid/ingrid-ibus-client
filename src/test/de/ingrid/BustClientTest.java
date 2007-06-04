@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 
 import junit.framework.TestCase;
-import net.weta.components.peer.PeerService;
 import de.ingrid.ibus.Bus;
 import de.ingrid.ibus.client.BusClient;
 import de.ingrid.utils.IBus;
@@ -96,10 +95,7 @@ public class BustClientTest extends TestCase {
         assertNotNull(bus);
         assertNull(bus.getIPlug("nixIplug"));
 
-        PeerService peerService = (PeerService) client.getCommunication();
-        String jxtaHome = peerService.getJxtaHome();
         client.shutdown();
-        deleteDirectoryRec(jxtaHome);
     }
 
     private static void deleteDirectoryRec(String dirPath) {
@@ -192,10 +188,7 @@ public class BustClientTest extends TestCase {
         assertNotNull(bus);
         assertNull(bus.getIPlug("nixIplug"));
 
-        PeerService peerService = (PeerService) client.getCommunication();
-        String jxtaHome = peerService.getJxtaHome();
         client.shutdown();
-        deleteDirectoryRec(jxtaHome);
 
     }
 
