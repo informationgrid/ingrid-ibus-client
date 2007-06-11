@@ -22,7 +22,6 @@ public class StressTestBusClient extends TestCase {
 
     private IngridQuery _query;
 
-    @Override
     protected void setUp() throws Exception {
         BusClient client = BusClient.instance();
         client.setBusUrl("/torwald-group:torwald-ibus");
@@ -34,8 +33,8 @@ public class StressTestBusClient extends TestCase {
     public void testBus() throws Exception {
 
         PrintWriter writer = new PrintWriter(new FileOutputStream(new File("webStress.csv")));
-        int threadCount = 10;
-        int clickCount = 20;
+        int threadCount = 20;
+        int clickCount = 1;
         writer.println("Users" + SEPERATOR + "Clicks" + SEPERATOR + "Time" + SEPERATOR + "Hits");
         for (int i = 1; i < threadCount + 1; i++) {
             for (int j = 1; j < clickCount + 1; j++) {
