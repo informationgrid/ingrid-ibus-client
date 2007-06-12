@@ -1,18 +1,18 @@
-package de.ingrid;
+package de.ingrid.ibus.client.bench;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
 
-import junit.framework.TestCase;
 import de.ingrid.ibus.client.BusClient;
+import de.ingrid.ibus.client.BusClientConfiguration;
 import de.ingrid.utils.IBus;
 import de.ingrid.utils.IngridHits;
 import de.ingrid.utils.query.IngridQuery;
 import de.ingrid.utils.queryparser.QueryStringParser;
 
-public class StressTestBusClient extends TestCase {
+public class StressTestBusClient {
 
     private static final String SEPERATOR = "\t";
 
@@ -22,44 +22,42 @@ public class StressTestBusClient extends TestCase {
 
     private IngridQuery _query;
 
-    protected void setUp() throws Exception {
-        BusClient client = BusClient.instance();
-        client.setBusUrl("/torwald-group:torwald-ibus");
-        client.setJxtaConfigurationPath("src/conf/communication.properties");
-        _bus = client.getBus();
+    private final int _users;
+
+    private final int _clicks;
+
+    private BusClient _client;
+
+    public StressTestBusClient(File file, int user, int clicks) throws Exception {
+        _users = user;
+        _clicks = clicks;
+        _client = BusClient.instance();
+        _client.setBusUrl("/torwald-group:torwald-ibus");
+        _client.setJxtaConfigurationPath(file.getAbsolutePath());
+        _bus = _client.getBus();
         _query = QueryStringParser.parse("1 OR 3 datatype:default ranking:score");
     }
 
     public void testBus() throws Exception {
 
         PrintWriter writer = new PrintWriter(new FileOutputStream(new File("webStress.csv")));
-        int threadCount = 20;
-        int clickCount = 1;
         writer.println("Users" + SEPERATOR + "Clicks" + SEPERATOR + "Time" + SEPERATOR + "Hits");
-        for (int i = 1; i < threadCount + 1; i++) {
-            for (int j = 1; j < clickCount + 1; j++) {
+        for (int i = 1; i < _users + 1; i++) {
+            for (int j = 1; j < _clicks + 1; j++) {
                 System.out.println(i + " Users - " + j + " clicks.");
                 click(i, j, writer);
-                // flush(i, j, writer);
             }
         }
 
-        for (int i = threadCount; i >= 1; i--) {
-            for (int j = clickCount; j >= 1; j--) {
+        for (int i = _users; i >= 1; i--) {
+            for (int j = _clicks; j >= 1; j--) {
                 System.out.println(i + " Users -  with " + j + " clicks.");
                 click(i, j, writer);
-                // flush(i, j, writer);
             }
         }
 
         writer.close();
-    }
-
-    private void flush(int user, int clicks, PrintWriter writer) {
-        for (int i = 0; i < 5; i++) {
-            writer.println(user + SEPERATOR + clicks + SEPERATOR + "0.0" + SEPERATOR + "0");
-        }
-        writer.flush();
+        _client.shutdown();
     }
 
     /**
@@ -143,4 +141,9 @@ public class StressTestBusClient extends TestCase {
 
     }
 
+    public static void main(String[] args) throws Exception {
+        StressTestBusClient client = new StressTestBusClient(new File(args[0]), new Integer(args[1]).intValue(),
+                new Integer(args[2]).intValue());
+        client.testBus();
+    }
 }
