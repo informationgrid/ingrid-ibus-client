@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 
 import de.ingrid.ibus.client.BusClient;
-import de.ingrid.ibus.client.BusClientConfiguration;
 import de.ingrid.utils.IBus;
 import de.ingrid.utils.IngridHits;
 import de.ingrid.utils.query.IngridQuery;
@@ -28,6 +27,8 @@ public class StressTestBusClient {
 
     private BusClient _client;
 
+    private PrintWriter _writer;
+
     public StressTestBusClient(File file, int user, int clicks) throws Exception {
         _users = user;
         _clicks = clicks;
@@ -35,28 +36,32 @@ public class StressTestBusClient {
         _client.setBusUrl("/torwald-group:torwald-ibus");
         _client.setJxtaConfigurationPath(file.getAbsolutePath());
         _bus = _client.getBus();
-        _query = QueryStringParser.parse("1 OR 3 datatype:default ranking:score");
+        _query = QueryStringParser.parse("1 OR 3 datatype:address datatype:default ranking:score");
+        _writer = new PrintWriter(new FileOutputStream(new File("webStress.csv")));
+        _writer.println("Users" + SEPERATOR + "Clicks" + SEPERATOR + "Time" + SEPERATOR + "Hits");
     }
 
     public void testBus() throws Exception {
 
-        PrintWriter writer = new PrintWriter(new FileOutputStream(new File("webStress.csv")));
-        writer.println("Users" + SEPERATOR + "Clicks" + SEPERATOR + "Time" + SEPERATOR + "Hits");
         for (int i = 1; i < _users + 1; i++) {
             for (int j = 1; j < _clicks + 1; j++) {
                 System.out.println(i + " Users - " + j + " clicks.");
-                click(i, j, writer);
+                click(i, j, _writer);
             }
         }
 
         for (int i = _users; i >= 1; i--) {
             for (int j = _clicks; j >= 1; j--) {
                 System.out.println(i + " Users -  with " + j + " clicks.");
-                click(i, j, writer);
+                click(i, j, _writer);
             }
         }
+        _writer.flush();
 
-        writer.close();
+    }
+
+    private void shutDown() {
+        _writer.close();
         _client.shutdown();
     }
 
@@ -144,6 +149,11 @@ public class StressTestBusClient {
     public static void main(String[] args) throws Exception {
         StressTestBusClient client = new StressTestBusClient(new File(args[0]), new Integer(args[1]).intValue(),
                 new Integer(args[2]).intValue());
-        client.testBus();
+
+        while (true) {
+            client.testBus();
+        }
+
     }
+
 }
