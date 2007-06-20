@@ -15,7 +15,7 @@ public class StressTestBusClient {
 
     private static final String SEPERATOR = "\t";
 
-    private static final DecimalFormat format = new DecimalFormat(".00");
+    static final DecimalFormat format = new DecimalFormat(".00");
 
     private IBus _bus;
 
@@ -38,7 +38,8 @@ public class StressTestBusClient {
         _bus = _client.getBus();
         _query = QueryStringParser.parse("1 OR 3 datatype:address datatype:default ranking:score");
         _writer = new PrintWriter(new FileOutputStream(new File("webStress.csv")));
-        _writer.println("Users" + SEPERATOR + "Clicks" + SEPERATOR + "Time" + SEPERATOR + "Hits");
+        _writer.println("Users" + SEPERATOR + "Clicks" + SEPERATOR + "Time" + SEPERATOR + "Hits" + SEPERATOR
+                + "TotalHits");
     }
 
     public void testBus() throws Exception {
@@ -133,7 +134,7 @@ public class StressTestBusClient {
                     long time = System.currentTimeMillis() - start;
                     System.out.println(format.format((time / 1000.0)) + SEPERATOR + hits.getHits().length);
                     fWriter.println(fUser + SEPERATOR + fClickCount + SEPERATOR + format.format((time / 1000.0))
-                            + SEPERATOR + hits.getHits().length);
+                            + SEPERATOR + hits.getHits().length + SEPERATOR + hits.length());
                     fWriter.flush();
                 }
             } catch (Exception e) {
