@@ -3,20 +3,15 @@
  */
 package de.ingrid.ibus.client;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.Properties;
 
 import net.weta.components.communication.ICommunication;
 import net.weta.components.communication.reflect.ProxyService;
 import net.weta.components.communication.tcp.StartCommunication;
-import de.ingrid.ibus.Bus;
 import de.ingrid.utils.IBus;
 import de.ingrid.utils.messages.CategorizedKeys;
 
