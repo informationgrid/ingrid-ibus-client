@@ -4,7 +4,7 @@
 	<artifactId>ingrid-ibus-client</artifactId>
 	<name>ingrid-ibus-client</name>
 	<groupId>ingrid</groupId>
-	<currentVersion>0.1-SNAPSHOT</currentVersion>
+	<currentVersion>1.0.0</currentVersion>
 	<inceptionYear>2005</inceptionYear>
 	<logo>/images/logo.gif</logo>
 	<shortDescription>a facade for easier acces to ibus</shortDescription>
@@ -70,13 +70,13 @@
 		<dependency>
 			<groupId>ingrid</groupId>
 			<artifactId>ingrid-utils</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>ingrid</groupId>
 			<artifactId>ingrid-ibus</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>
