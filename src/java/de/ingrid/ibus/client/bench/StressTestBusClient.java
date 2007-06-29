@@ -29,6 +29,8 @@ public class StressTestBusClient {
 
     private PrintWriter _writer;
 
+    private static long _benchStartTime = System.currentTimeMillis();
+
     public StressTestBusClient(File file, int user, int clicks) throws Exception {
         _users = user;
         _clicks = clicks;
@@ -133,8 +135,9 @@ public class StressTestBusClient {
                     IngridHits hits = bus.search(ingridQuery, 10, 1, 1, 30000);
                     long time = System.currentTimeMillis() - start;
                     System.out.println(format.format((time / 1000.0)) + SEPERATOR + hits.getHits().length);
-                    fWriter.println(fUser + SEPERATOR + fClickCount + SEPERATOR + format.format((time / 1000.0))
-                            + SEPERATOR + hits.getHits().length + SEPERATOR + hits.length());
+                    fWriter.println(Duration.getDuration(start - _benchStartTime) + SEPERATOR + fUser + SEPERATOR
+                            + fClickCount + SEPERATOR + format.format((time / 1000.0)) + SEPERATOR
+                            + hits.getHits().length + SEPERATOR + hits.length());
                     fWriter.flush();
                 }
             } catch (Exception e) {
