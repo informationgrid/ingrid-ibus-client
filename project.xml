@@ -13,7 +13,7 @@
   <siteAddress>http://213.144.28.209/ingrid/ingrid-ibus-facade</siteAddress>
   <siteDirectory>/srv/www/htdocs/ingrid/ingrid-ibus-client</siteDirectory>
   <repository>
-    <connection>scm:svn:https://127.0.0.1:444/svn/ingrid/ingrid-ibus-client/trunk</connection>
+    <connection>scm:svn:https://127.0.0.1:444/svn/ingrid/ingrid-ibus-client/branches/ingrid-ibus-client-1.0.0</connection>
   </repository>
   <mailingLists>
     <mailingList>
