@@ -4,7 +4,7 @@
 	<artifactId>ingrid-ibus-client</artifactId>
 	<name>ingrid-ibus-client</name>
 	<groupId>ingrid</groupId>
-	<currentVersion>0.2.0-SNAPSHOT</currentVersion>
+	<currentVersion>1.1.0-SNAPSHOT</currentVersion>
 	<inceptionYear>2005</inceptionYear>
 	<logo>/images/logo.gif</logo>
 	<shortDescription>a facade for easier acces to ibus</shortDescription>
