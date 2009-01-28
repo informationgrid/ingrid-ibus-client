@@ -25,8 +25,6 @@ public class StressTestBusClient {
 
     private final int _clicks;
 
-    private BusClient _client;
-
     private PrintWriter _writer;
 
     private static long _benchStartTime = System.currentTimeMillis();
@@ -34,10 +32,7 @@ public class StressTestBusClient {
     public StressTestBusClient(File file, int user, int clicks) throws Exception {
         _users = user;
         _clicks = clicks;
-        _client = BusClient.instance();
-        _client.setBusUrl("/torwald-group:torwald-ibus");
-        _client.setJxtaConfigurationPath(file.getAbsolutePath());
-        _bus = _client.getBus();
+        _bus = new BusClient().getCacheableIBus();
         _query = QueryStringParser.parse("1 OR 3 datatype:address datatype:default ranking:score");
         _writer = new PrintWriter(new FileOutputStream(new File("webStress.csv")));
         _writer.println("Users" + SEPERATOR + "Clicks" + SEPERATOR + "Time" + SEPERATOR + "Hits" + SEPERATOR
@@ -65,7 +60,6 @@ public class StressTestBusClient {
 
     private void shutDown() {
         _writer.close();
-        _client.shutdown();
     }
 
     /**
