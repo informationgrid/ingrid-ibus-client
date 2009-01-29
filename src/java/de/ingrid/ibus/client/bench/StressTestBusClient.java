@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
 
-import de.ingrid.ibus.client.BusClient;
+import de.ingrid.ibus.client.BusClientFactory;
 import de.ingrid.utils.IBus;
 import de.ingrid.utils.IngridHits;
 import de.ingrid.utils.query.IngridQuery;
@@ -32,7 +32,7 @@ public class StressTestBusClient {
     public StressTestBusClient(File file, int user, int clicks) throws Exception {
         _users = user;
         _clicks = clicks;
-        _bus = new BusClient().getCacheableIBus();
+        _bus = BusClientFactory.createBusClient().getCacheableIBus();
         _query = QueryStringParser.parse("1 OR 3 datatype:address datatype:default ranking:score");
         _writer = new PrintWriter(new FileOutputStream(new File("webStress.csv")));
         _writer.println("Users" + SEPERATOR + "Clicks" + SEPERATOR + "Time" + SEPERATOR + "Hits" + SEPERATOR

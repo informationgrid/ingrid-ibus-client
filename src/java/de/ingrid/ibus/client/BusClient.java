@@ -21,15 +21,15 @@ public class BusClient {
 
     private ICommunication _communication;
 
-    public BusClient() throws Exception {
+    BusClient() throws Exception {
         this(BusClient.class.getResourceAsStream("/communication.xml"));
     }
 
-    public BusClient(File communicationXml) throws Exception {
+    BusClient(File communicationXml) throws Exception {
         this(new FileInputStream(communicationXml));
     }
 
-    public BusClient(InputStream inputStream) throws Exception {
+    BusClient(InputStream inputStream) throws Exception {
         _communication = StartCommunication.create(inputStream);
         _communication.startup();
         createIBusProxies(_communication);
