@@ -30,18 +30,20 @@ public class CachableInvocationHandlerTest extends TestCase {
         IBus bus = (IBus) proxyInstance;
         IngridQuery query1 = QueryStringParser.parse("foo:bar");
         IngridQuery query2 = QueryStringParser.parse("foo:bar");
+        IngridQuery query3 = QueryStringParser.parse("foo:bar1");
         
         assertEquals(0, _counter);
-        bus.search(query1, 10, 1, 10, 10);
-        assertEquals(1, _counter);
-        bus.search(query1, 10, 1, 10, 10);
-        assertEquals(1, _counter);
+        
         bus.search(query1, 10, 1, 10, 10);
         assertEquals(1, _counter);
 
+        bus.search(query1, 10, 1, 10, 10);
+        assertEquals(1, _counter);
+        
         bus.search(query2, 10, 1, 10, 10);
-        assertEquals(2, _counter);
-        bus.search(query2, 10, 1, 10, 10);
+        assertEquals(1, _counter);
+        
+        bus.search(query3, 10, 1, 10, 10);
         assertEquals(2, _counter);
         
         
