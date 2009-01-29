@@ -40,13 +40,18 @@ public class CacheableInvocationHandler implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Object object = null;
         String cacheKey = computeCacheKey(proxy, method, args);
-        System.out.println(cacheKey);
         Element element = getFromCache(cacheKey);
         if (element == null) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("do not found element in cache, with cacheKey: " + cacheKey);
+            }
             object = _defaultHandler.invoke(proxy, method, args);
             _cache.put(new Element(cacheKey, (Serializable) object));
         } else {
             object = element.getValue();
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("found element in cache, with cacheKey: " + cacheKey);
+            }
         }
         return object;
     }
@@ -59,9 +64,6 @@ public class CacheableInvocationHandler implements InvocationHandler {
         Element element = null;
         try {
             element = _cache.get(cacheKey);
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("found element in cache, with cacheKey: " + cacheKey);
-            }
         } catch (Exception e) {
             LOG.log(Level.ERROR, "can not load element from cache", e);
         }
