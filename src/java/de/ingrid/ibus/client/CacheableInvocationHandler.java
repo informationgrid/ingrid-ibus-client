@@ -3,7 +3,6 @@ package de.ingrid.ibus.client;
 import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
@@ -57,7 +56,21 @@ public class CacheableInvocationHandler implements InvocationHandler {
     }
 
     private String computeCacheKey(Object proxy, Method method, Object[] args) {
-        return method.toString() + "_" + Arrays.hashCode(args);
+        return method.toString() + "_" + computeHashcode(args);
+    }
+
+    private int computeHashcode(Object object) {
+        final int prime = 31;
+        int result = 1;
+        if (object instanceof Object[]) {
+            Object[] objects = (Object[]) object;
+            for (Object object2 : objects) {
+                result = prime * result + computeHashcode(object2);
+            }
+        } else {
+            result = prime * result + ((object == null) ? 0 : object.hashCode());
+        }
+        return result;
     }
 
     private Element getFromCache(String cacheKey) {
