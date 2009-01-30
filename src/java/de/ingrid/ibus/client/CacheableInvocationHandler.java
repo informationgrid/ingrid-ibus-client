@@ -46,7 +46,9 @@ public class CacheableInvocationHandler implements InvocationHandler {
                 LOG.debug("do not found element in cache, with cacheKey: " + cacheKey);
             }
             object = _defaultHandler.invoke(proxy, method, args);
-            _cache.put(new Element(cacheKey, (Serializable) object));
+            if (object != null) {
+                _cache.put(new Element(cacheKey, (Serializable) object));
+            }
         } else {
             object = element.getValue();
             if (LOG.isDebugEnabled()) {
