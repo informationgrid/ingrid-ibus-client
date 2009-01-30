@@ -2,7 +2,6 @@ package de.ingrid.ibus.client;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
@@ -51,7 +50,9 @@ public class BusClient {
         return _cacheableIBus;
     }
 
-    public void close() throws IOException {
+    public void close() throws Exception {
+        _cacheableIBus.close();
+        _nonCacheableIBus.close();
         _communication.shutdown();
     }
 

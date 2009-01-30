@@ -44,15 +44,23 @@ public class CacheableInvocationHandler implements InvocationHandler {
         if (element == null) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("do not found element in cache, with cacheKey: " + cacheKey);
+                LOG.debug("call [" + method + "] method with default handler.");
             }
             object = _defaultHandler.invoke(proxy, method, args);
             if (object != null) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("put element [" + object + "] in cache with cache key: " + cacheKey);
+                }
                 _cache.put(new Element(cacheKey, (Serializable) object));
+            } else {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("default handler return null for method: " + method);
+                }
             }
         } else {
             object = element.getValue();
             if (LOG.isDebugEnabled()) {
-                LOG.debug("found element in cache, with cacheKey: " + cacheKey);
+                LOG.debug("found element [" + object + "] in cache, with cacheKey: " + cacheKey);
             }
         }
         return object;
@@ -60,6 +68,21 @@ public class CacheableInvocationHandler implements InvocationHandler {
 
     private String computeCacheKey(Object proxy, Method method, Object[] args) {
         return method.toString() + "_" + Arrays.deepHashCode(args);
+        // return method.toString() + "_" + computeHashcode(args);
+    }
+
+    private int computeHashcode(Object object) {
+        final int prime = 31;
+        int result = 1;
+        if (object instanceof Object[]) {
+            Object[] objects = (Object[]) object;
+            for (Object object2 : objects) {
+                result = prime * result + computeHashcode(object2);
+            }
+        } else {
+            result = prime * result + ((object == null) ? 0 : object.hashCode());
+        }
+        return result;
     }
 
     private Element getFromCache(String cacheKey) {
