@@ -3,7 +3,6 @@ package de.ingrid.ibus.client;
 import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
@@ -13,6 +12,8 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 public class CacheableInvocationHandler implements InvocationHandler {
+
+    private static final int MAX_DEEP = 50;
 
     private CacheManager _cacheManager;
 
@@ -67,17 +68,20 @@ public class CacheableInvocationHandler implements InvocationHandler {
     }
 
     private String computeCacheKey(Object proxy, Method method, Object[] args) {
-        return method.toString() + "_" + Arrays.deepHashCode(args);
-        // return method.toString() + "_" + computeHashcode(args);
+        // return method.toString() + "_" + Arrays.deepHashCode(args);
+        return method.toString() + "_" + computeHashcode(args, 1);
     }
 
-    private int computeHashcode(Object object) {
+    private int computeHashcode(Object object, int deep) {
         final int prime = 31;
         int result = 1;
-        if (object instanceof Object[]) {
+        if ((object instanceof Object[]) && deep < MAX_DEEP) {
             Object[] objects = (Object[]) object;
             for (Object object2 : objects) {
-                result = prime * result + computeHashcode(object2);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("compute hashcode recursive with deep: " + deep);
+                }
+                result = prime * result + computeHashcode(object2, deep + 1);
             }
         } else {
             result = prime * result + ((object == null) ? 0 : object.hashCode());
