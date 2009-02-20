@@ -1,5 +1,6 @@
 package de.ingrid.ibus.client;
 
+import de.ingrid.utils.DeepUtil;
 import de.ingrid.utils.IBus;
 import de.ingrid.utils.IngridHit;
 import de.ingrid.utils.IngridHitDetail;
@@ -14,7 +15,8 @@ class BusClientApplication {
         String currentAddressId = "1";
         // IngridQuery ingridQuery =
         // QueryStringParser.parse("http dataype:default");
-        IngridQuery ingridQuery = QueryStringParser.parse("management_request_type:1  datatype:management ranking:off grouped:null");
+        IngridQuery ingridQuery = QueryStringParser.parse("Weltraum +datatype:sns cache:off");
+        System.out.println(ingridQuery);
 
         BusClient busClient = BusClientFactory.createBusClient();
         Thread.sleep(2000);
@@ -26,6 +28,7 @@ class BusClientApplication {
             try {
                 IngridHits ingridHits = bus.search(ingridQuery, 10, 1, 10, 100);
                 IngridHit[] hits = ingridHits.getHits();
+                System.out.println("#" + DeepUtil.deepString(ingridHits, 1) + "#");
                 IngridHitDetail[] hitDetails = bus.getDetails(hits, ingridQuery, new String[] { "title" });
                 for (IngridHitDetail ingridHitDetail : hitDetails) {
                     System.out.println(ingridHitDetail.getPlugId());

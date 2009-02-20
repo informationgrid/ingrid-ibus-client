@@ -34,6 +34,11 @@ public class BusClient {
         createIBusProxies(_communication);
     }
 
+    BusClient(ICommunication communication) throws Exception {
+        _communication = communication;
+        createIBusProxies(_communication);
+    }
+    
     private void createIBusProxies(ICommunication communication) throws Exception {
         String busUrl = (String) ((TcpCommunication) communication).getServerNames().get(0);
         InvocationHandler nonCacheableHandler = new ReflectInvocationHandler(communication, busUrl);
