@@ -6,7 +6,9 @@
 	<version>1.2.1-SNAPSHOT</version>
 	<name>Ingrid iBus Client</name>
 	<scm>
-		<connection>scm:svn:https://127.0.0.1:444/svn/ingrid/ingrid-ibus-client/trunk</connection>
+	  <connection>scm:svn:https://127.0.0.1:444/svn/ingrid/ingrid-ibus-client/trunk</connection>
+	  <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-ibus-client/trunk</developerConnection>
+	  <url>http://somerepository.com/view.cvs</url>
 	</scm>
 	<dependencies>
 		<dependency>
@@ -73,6 +75,36 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.3</version>
+			</plugin>
+			<plugin>
+			  <groupId>org.codehaus.mojo</groupId>
+			  <artifactId>buildnumber-maven-plugin</artifactId>
+			  <executions>
+			    <execution>
+			      <phase>validate</phase>
+			      <goals>
+			        <goal>create</goal>
+			      </goals>
+			    </execution>
+			  </executions>
+			  <configuration>
+			    <doCheck>false</doCheck>
+			    <doUpdate>false</doUpdate>
+			  </configuration>
+			</plugin>
+			<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-jar-plugin</artifactId>
+			  <version>2.2</version>
+			  <configuration>
+			    <archive>
+			      <manifestEntries>
+			        <Implementation-Version>${version}</Implementation-Version>
+			        <Implementation-Build>${buildNumber}</Implementation-Build>
+		            <Build-Timestamp>${timestamp}</Build-Timestamp>
+			      </manifestEntries>
+			    </archive>
+			  </configuration>
 			</plugin>
 		</plugins>
 	</build>
