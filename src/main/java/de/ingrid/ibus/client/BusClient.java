@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.weta.components.communication.ICommunication;
 import net.weta.components.communication.messaging.IMessageHandler;
@@ -22,9 +24,9 @@ import de.ingrid.utils.IPlug;
 
 public class BusClient {
 
-	private IBus _nonCacheableIBus;
+	private final List<IBus> _nonCacheableIBus = new ArrayList<IBus>();
 
-    private IBus _cacheableIBus;
+    private final List<IBus> _cacheableIBus = new ArrayList<IBus>();
 
     private ICommunication _communication;
 
@@ -72,6 +74,7 @@ public class BusClient {
 			LOG.warn("iPlug is already set: " + _iPlug.getClass().getName());
 		} else {
 			_iPlug = iPlug;
+			setCommunicationPlug(_iPlug);
 		}
 	}
 
@@ -79,30 +82,59 @@ public class BusClient {
 		return _iPlug;
 	}
 
+	public Integer getBusCount() {
+		if (_nonCacheableIBus.size() != _cacheableIBus.size()) {
+			return 0;
+		}
+		return _cacheableIBus.size();
+	}
+
     public IBus getNonCacheableIBus() {
-        return _nonCacheableIBus;
+		return getNonCacheableIBus(0);
+	}
+
+	public IBus getNonCacheableIBus(final int index) {
+		if (getBusCount() <= index) {
+			return null;
+		}
+		return _nonCacheableIBus.get(index);
     }
 
     public IBus getCacheableIBus() {
-        return _cacheableIBus;
+		return getCacheableIBus(0);
+	}
+
+	public IBus getCacheableIBus(final int index) {
+		if (getBusCount() <= index) {
+			return null;
+		}
+		return _cacheableIBus.get(index);
     }
 
     public void close() throws Exception {
-        _cacheableIBus.close();
-        _nonCacheableIBus.close();
+		getCacheableIBus().close();
+		getNonCacheableIBus().close();
 		_communication.shutdown();
     }
 
 	public final String getMotherBusUrl() {
+		return getBusUrl(0);
+	}
+
+	public final String getBusUrl(final int index) {
 		if (_communication != null) {
-			return (String) ((TcpCommunication) _communication).getServerNames().get(0);
+			return (String) ((TcpCommunication) _communication).getServerNames().get(index);
 		}
 		return null;
 	}
 
 	public boolean isConnected() {
+		return isConnected(0);
+	}
+
+	public boolean isConnected(final int index) {
 		if (_communication != null) {
-			return _communication.isConnected(getMotherBusUrl());
+			return _communication.isConnected(getBusUrl(index));
 		}
 		return false;
 	}
@@ -135,6 +167,8 @@ public class BusClient {
 		if (_communication != null && isConnected()) {
 			LOG.info("shutdown communication");
 			_communication.shutdown();
+			_nonCacheableIBus.clear();
+			_cacheableIBus.clear();
 			// sleep until connected
 			for (int i = 0; i < 10; i++) {
 				if (!isConnected()) {
@@ -156,12 +190,20 @@ public class BusClient {
 		start();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void createIBusProxies(final ICommunication communication) throws Exception {
-		final String busUrl = (String) ((TcpCommunication) communication).getServerNames().get(0);
-		final InvocationHandler nonCacheableHandler = new ReflectInvocationHandler(communication, busUrl);
-		final InvocationHandler cacheableInvocationHandler = new CacheableInvocationHandler(nonCacheableHandler);
-		_nonCacheableIBus = (IBus) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[] { IBus.class }, nonCacheableHandler);
-		_cacheableIBus = (IBus) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[] { IBus.class }, cacheableInvocationHandler);
+		final List<String> serverNames = ((TcpCommunication) communication).getServerNames();
+		for (final String name : serverNames) {
+			final InvocationHandler nonCacheableHandler = new ReflectInvocationHandler(communication, name);
+			final IBus nonCacheableIBus = (IBus) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[] { IBus.class },
+					nonCacheableHandler);
+			_nonCacheableIBus.add(nonCacheableIBus);
+
+			final InvocationHandler cacheableInvocationHandler = new CacheableInvocationHandler(nonCacheableHandler);
+			final IBus cacheableIBus = (IBus) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[] { IBus.class },
+					cacheableInvocationHandler);
+			_cacheableIBus.add(cacheableIBus);
+		}
 	}
 
 	private void setCommunicationPlug(final IPlug plug) {
