@@ -93,7 +93,7 @@ public class BusClient {
 		_communication.shutdown();
     }
 
-	public final String getUrl() {
+	public final String getMotherBusUrl() {
 		if (_communication != null) {
 			return (String) ((TcpCommunication) _communication).getServerNames().get(0);
 		}
@@ -102,7 +102,7 @@ public class BusClient {
 
 	public boolean isConnected() {
 		if (_communication != null) {
-			return _communication.isConnected(getUrl());
+			return _communication.isConnected(getMotherBusUrl());
 		}
 		return false;
 	}
