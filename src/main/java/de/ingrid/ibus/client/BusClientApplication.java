@@ -60,7 +60,7 @@ class BusClientApplication {
             System.out.println("With Cache: " + (end - start) + " ms.");
         }
 
-        busClient.close();
+        busClient.shutdown();
 
     }
 }
