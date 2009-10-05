@@ -112,8 +112,8 @@ public class BusClient {
     public boolean allConnected() {
         boolean bit = _communication != null;
         if (bit) {
-            List serverNames = ((TcpCommunication) _communication).getServerNames();
-            for (Object serverName : serverNames) {
+            final List serverNames = ((TcpCommunication) _communication).getServerNames();
+            for (final Object serverName : serverNames) {
                 if (!_communication.isConnected(serverName.toString())) {
                     bit = false;
                     break;
@@ -126,8 +126,8 @@ public class BusClient {
     public boolean allDisconnected() {
         boolean bit = _communication != null;
         if (bit) {
-            List serverNames = ((TcpCommunication) _communication).getServerNames();
-            for (Object serverName : serverNames) {
+            final List serverNames = ((TcpCommunication) _communication).getServerNames();
+            for (final Object serverName : serverNames) {
                 if (_communication.isConnected(serverName.toString())) {
                     bit = false;
                     break;
@@ -201,8 +201,9 @@ public class BusClient {
     @SuppressWarnings("unchecked")
     private void createIBusProxies(final ICommunication communication) throws Exception {
         final List<String> serverNames = ((TcpCommunication) communication).getServerNames();
+        _nonCacheableIBusses.clear();
+        _cacheableIBusses.clear();
         for (final String name : serverNames) {
-            System.out.println("BusClient.createIBusProxies()");
             final InvocationHandler nonCacheableHandler = new ReflectInvocationHandler(communication, name);
             final IBus nonCacheableIBus = (IBus) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
                     new Class[] { IBus.class }, nonCacheableHandler);
