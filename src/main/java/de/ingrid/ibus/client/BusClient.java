@@ -145,7 +145,7 @@ public class BusClient {
     }
 
     public void start() throws Exception {
-        if (!allConnected() && _communicationXml.exists()) {
+        if ((allDisconnected() || _communication == null) && _communicationXml.exists()) {
             // connect
             LOG.info("create communication");
             _communication = StartCommunication.create(new FileInputStream(_communicationXml));
@@ -165,6 +165,8 @@ public class BusClient {
             createIBusProxies(_communication);
             // set plug
             setCommunicationPlug(_iPlug);
+        } else if (!allConnected()) {
+            restart();
         }
     }
 
