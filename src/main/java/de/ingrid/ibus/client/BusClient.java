@@ -145,33 +145,35 @@ public class BusClient {
     }
 
     public void start() throws Exception {
-        if ((allDisconnected() || _communication == null) && _communicationXml.exists()) {
-            // connect
-            LOG.info("create communication");
-            _communication = StartCommunication.create(new FileInputStream(_communicationXml));
-            LOG.info("start communication");
-            _communication.startup();
-            // sleep until connected
-            for (int i = 0; i < 10; i++) {
-                if (allConnected()) {
-                    break;
+        if (_communicationXml.exists()) {
+            if ((allDisconnected() || _communication == null)) {
+                // connect
+                LOG.info("create communication");
+                _communication = StartCommunication.create(new FileInputStream(_communicationXml));
+                LOG.info("start communication");
+                _communication.startup();
+                // sleep until connected
+                for (int i = 0; i < 10; i++) {
+                    if (allConnected()) {
+                        break;
+                    }
+                    Thread.sleep(500);
                 }
-                Thread.sleep(500);
+                if (!allConnected()) {
+                    throw new Exception("start communication failed");
+                }
+                // create iBusses
+                createIBusProxies(_communication);
+                // set plug
+                setCommunicationPlug(_iPlug);
+            } else if (!allConnected()) {
+                restart();
             }
-            if (!allConnected()) {
-                throw new Exception("start communication failed");
-            }
-            // create iBusses
-            createIBusProxies(_communication);
-            // set plug
-            setCommunicationPlug(_iPlug);
-        } else if (!allConnected()) {
-            restart();
         }
     }
 
     public void shutdown() throws Exception {
-        if (_communication != null && allConnected()) {
+        if (_communication != null) {
             LOG.info("shutdown communication");
 
             // shutdown communication
