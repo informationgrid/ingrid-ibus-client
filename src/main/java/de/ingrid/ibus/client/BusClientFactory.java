@@ -29,7 +29,7 @@ public class BusClientFactory {
 		return _busClient;
 	}
 
-	public static BusClient getBusClient() {
+    public static BusClient getBusClient() {
 		return _busClient;
 	}
 

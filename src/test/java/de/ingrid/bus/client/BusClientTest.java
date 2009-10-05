@@ -35,7 +35,7 @@ public class BusClientTest extends TestCase {
         // singleton
         File file = new File("src/test/resources/communication-client.xml");
         _client = BusClientFactory.createBusClient(file);
-        if (!_client.isConnected()) {
+        if (!_client.allConnected()) {
             _client.start();
         }
     }
@@ -46,18 +46,18 @@ public class BusClientTest extends TestCase {
     }
 
     public void testIsConnected() throws Exception {
-        assertTrue(_client.isConnected());
+        assertTrue(_client.allConnected());
     }
 
     public void testShutdown() throws Exception {
         _client.shutdown();
-        assertFalse(_client.isConnected());
+        assertFalse(_client.allConnected());
     }
 
     public void testRestart() throws Exception {
-        assertTrue(_client.isConnected());
+        assertTrue(_client.allConnected());
         _client.restart();
-        assertTrue(_client.isConnected());
+        assertTrue(_client.allConnected());
     }
 
     public void testSetPlug() throws Exception {

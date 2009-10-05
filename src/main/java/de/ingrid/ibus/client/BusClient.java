@@ -24,204 +24,205 @@ import de.ingrid.utils.IPlug;
 
 public class BusClient {
 
-	private final List<IBus> _nonCacheableIBusses = new ArrayList<IBus>();
+    private final List<IBus> _nonCacheableIBusses = new ArrayList<IBus>();
 
     private final List<IBus> _cacheableIBusses = new ArrayList<IBus>();
 
     private ICommunication _communication;
 
-	private File _communicationXml;
+    private File _communicationXml;
 
-	private IPlug _iPlug;
+    private IPlug _iPlug;
 
-	private static final Log LOG = LogFactory.getLog(BusClient.class);
+    private static final Log LOG = LogFactory.getLog(BusClient.class);
 
-	@Deprecated
+    @Deprecated
     BusClient() throws Exception {
         this(BusClient.class.getResourceAsStream("/communication.xml"));
     }
 
     BusClient(final File communicationXml) throws Exception {
-		_communicationXml = communicationXml;
-		start();
+        _communicationXml = communicationXml;
+        start();
     }
 
-	BusClient(final File communicationXml, final IPlug iplug) throws Exception {
-		_communicationXml = communicationXml;
-		_iPlug = iplug;
-		start();
-	}
+    BusClient(final File communicationXml, final IPlug iplug) throws Exception {
+        _communicationXml = communicationXml;
+        _iPlug = iplug;
+        start();
+    }
 
-	@Deprecated
+    @Deprecated
     BusClient(final InputStream inputStream) throws Exception {
         _communication = StartCommunication.create(inputStream);
         _communication.startup();
         createIBusProxies(_communication);
     }
 
-	@Deprecated
+    @Deprecated
     BusClient(final ICommunication communication) throws Exception {
         _communication = communication;
         createIBusProxies(_communication);
     }
 
-	public String getPeerName() {
-		return _communication.getPeerName();
-	}
+    public String getPeerName() {
+        return _communication.getPeerName();
+    }
 
-	public void setIPlug(final IPlug iPlug) throws Exception {
-		if (_iPlug != null) {
-			LOG.warn("iPlug is already set: " + _iPlug.getClass().getName());
-		} else {
-			_iPlug = iPlug;
-			setCommunicationPlug(_iPlug);
-		}
-	}
+    public void setIPlug(final IPlug iPlug) throws Exception {
+        if (_iPlug != null) {
+            LOG.warn("iPlug is already set: " + _iPlug.getClass().getName());
+        } else {
+            _iPlug = iPlug;
+            setCommunicationPlug(_iPlug);
+        }
+    }
 
-	public IPlug getIPlug() {
-		return _iPlug;
-	}
+    public IPlug getIPlug() {
+        return _iPlug;
+    }
 
-	public Integer getBusCount() {
-		if (_nonCacheableIBusses.size() != _cacheableIBusses.size()) {
-			return 0;
-		}
-		return _cacheableIBusses.size();
-	}
-
-	public List<IBus> getNonCacheableIBusses() {
-		return _nonCacheableIBusses;
-	}
+    public List<IBus> getNonCacheableIBusses() {
+        return _nonCacheableIBusses;
+    }
 
     public IBus getNonCacheableIBus() {
-		return getNonCacheableIBus(0);
-	}
-
-	public IBus getNonCacheableIBus(final int index) {
-		if (getBusCount() <= index) {
-			return null;
-		}
-		return _nonCacheableIBusses.get(index);
+        return _nonCacheableIBusses.size() > 0 ? _nonCacheableIBusses.get(0) : null;
     }
 
-	public List<IBus> getCacheableIBusses() {
-		return _cacheableIBusses;
-	}
+    public List<IBus> getCacheableIBusses() {
+        return _cacheableIBusses;
+    }
 
     public IBus getCacheableIBus() {
-		return getCacheableIBus(0);
-	}
-
-	public IBus getCacheableIBus(final int index) {
-		if (getBusCount() <= index) {
-			return null;
-		}
-		return _cacheableIBusses.get(index);
+        return _cacheableIBusses.size() > 0 ? _cacheableIBusses.get(0) : null;
     }
 
-    public void close() throws Exception {
-		getCacheableIBus().close();
-		getNonCacheableIBus().close();
-		_communication.shutdown();
+    public final String getMotherBusUrl() {
+        return getBusUrl(0);
     }
 
-	public final String getMotherBusUrl() {
-		return getBusUrl(0);
-	}
+    public final String getBusUrl(final int index) {
+        if (_communication != null) {
+            return (String) ((TcpCommunication) _communication).getServerNames().get(index);
+        }
+        return null;
+    }
 
-	public final String getBusUrl(final int index) {
-		if (_communication != null) {
-			return (String) ((TcpCommunication) _communication).getServerNames().get(index);
-		}
-		return null;
-	}
+    public boolean allConnected() {
+        boolean bit = _communication != null;
+        if (bit) {
+            List serverNames = ((TcpCommunication) _communication).getServerNames();
+            for (Object serverName : serverNames) {
+                if (!_communication.isConnected(serverName.toString())) {
+                    bit = false;
+                    break;
+                }
+            }
+        }
+        return bit;
+    }
 
-	public boolean isConnected() {
-		return isConnected(0);
-	}
+    public boolean allDisconnected() {
+        boolean bit = _communication != null;
+        if (bit) {
+            List serverNames = ((TcpCommunication) _communication).getServerNames();
+            for (Object serverName : serverNames) {
+                if (_communication.isConnected(serverName.toString())) {
+                    bit = false;
+                    break;
+                }
+            }
+        }
+        return bit;
+    }
 
-	public boolean isConnected(final int index) {
-		if (_communication != null) {
-			return _communication.isConnected(getBusUrl(index));
-		}
-		return false;
-	}
+    public boolean isConnected(final int index) {
+        if (_communication != null) {
+            return _communication.isConnected(getBusUrl(index));
+        }
+        return false;
+    }
 
     public void start() throws Exception {
-		if (!isConnected() && _communicationXml.exists()) {
-			// connect
-			LOG.info("create communication");
-			_communication = StartCommunication.create(new FileInputStream(_communicationXml));
-			LOG.info("start communication");
-			_communication.startup();
-			// sleep until connected
-			for (int i = 0; i < 10; i++) {
-				if (isConnected()) {
-					break;
-				}
-				Thread.sleep(500);
-			}
-			if (!isConnected()) {
-				throw new Exception("start communication failed");
-			}
-			// create iBusses
-			createIBusProxies(_communication);
-			// set plug
-			setCommunicationPlug(_iPlug);
-		}
-	}
+        if (!allConnected() && _communicationXml.exists()) {
+            // connect
+            LOG.info("create communication");
+            _communication = StartCommunication.create(new FileInputStream(_communicationXml));
+            LOG.info("start communication");
+            _communication.startup();
+            // sleep until connected
+            for (int i = 0; i < 10; i++) {
+                if (allConnected()) {
+                    break;
+                }
+                Thread.sleep(500);
+            }
+            if (!allConnected()) {
+                throw new Exception("start communication failed");
+            }
+            // create iBusses
+            createIBusProxies(_communication);
+            // set plug
+            setCommunicationPlug(_iPlug);
+        }
+    }
 
-	public void shutdown() throws Exception {
-		if (_communication != null && isConnected()) {
-			LOG.info("shutdown communication");
-			_communication.shutdown();
-			_nonCacheableIBusses.clear();
-			_cacheableIBusses.clear();
-			// sleep until connected
-			for (int i = 0; i < 10; i++) {
-				if (!isConnected()) {
-					break;
-				}
-				Thread.sleep(500);
-			}
-			if (isConnected()) {
-				throw new Exception("shutdown communication failed");
-			}
-		}
-	}
+    public void shutdown() throws Exception {
+        if (_communication != null && allConnected()) {
+            LOG.info("shutdown communication");
 
-	public void restart() throws Exception {
-		LOG.info("restart communication");
+            // shutdown communication
+            _communication.shutdown();
 
-		shutdown();
+            // clear busses
+            _nonCacheableIBusses.clear();
+            _cacheableIBusses.clear();
 
-		start();
-	}
+            // sleep until connected
+            for (int i = 0; i < 10; i++) {
+                if (allDisconnected()) {
+                    break;
+                }
+                Thread.sleep(500);
+            }
+            if (!allDisconnected()) {
+                throw new Exception("shutdown communication failed");
+            }
+        }
+    }
 
-	@SuppressWarnings("unchecked")
-	private void createIBusProxies(final ICommunication communication) throws Exception {
-		final List<String> serverNames = ((TcpCommunication) communication).getServerNames();
-		for (final String name : serverNames) {
-			final InvocationHandler nonCacheableHandler = new ReflectInvocationHandler(communication, name);
-			final IBus nonCacheableIBus = (IBus) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[] { IBus.class },
-					nonCacheableHandler);
-			_nonCacheableIBusses.add(nonCacheableIBus);
+    public void restart() throws Exception {
+        LOG.info("restart communication");
+        shutdown();
+        start();
+    }
 
-			final InvocationHandler cacheableInvocationHandler = new CacheableInvocationHandler(nonCacheableHandler);
-			final IBus cacheableIBus = (IBus) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[] { IBus.class },
-					cacheableInvocationHandler);
-			_cacheableIBusses.add(cacheableIBus);
-		}
-	}
+    @SuppressWarnings("unchecked")
+    private void createIBusProxies(final ICommunication communication) throws Exception {
+        final List<String> serverNames = ((TcpCommunication) communication).getServerNames();
+        for (final String name : serverNames) {
+            System.out.println("BusClient.createIBusProxies()");
+            final InvocationHandler nonCacheableHandler = new ReflectInvocationHandler(communication, name);
+            final IBus nonCacheableIBus = (IBus) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+                    new Class[] { IBus.class }, nonCacheableHandler);
+            _nonCacheableIBusses.add(nonCacheableIBus);
 
-	private void setCommunicationPlug(final IPlug plug) {
-		if (plug != null && _communication != null) {
-			final IMessageQueue messageQueue = _communication.getMessageQueue();
-			final IMessageHandler messageHandler = new ReflectMessageHandler();
-			LOG.info("add iplug [" + plug.getClass().getSimpleName() + "] to message handler");
-			((ReflectMessageHandler) messageHandler).addObjectToCall(IPlug.class, plug);
-			LOG.info("add message handler to message queue");
-			messageQueue.addMessageHandler(ReflectMessageHandler.MESSAGE_TYPE, messageHandler);
-		}
-	}
+            final InvocationHandler cacheableInvocationHandler = new CacheableInvocationHandler(nonCacheableHandler);
+            final IBus cacheableIBus = (IBus) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+                    new Class[] { IBus.class }, cacheableInvocationHandler);
+            _cacheableIBusses.add(cacheableIBus);
+        }
+    }
+
+    private void setCommunicationPlug(final IPlug plug) {
+        if (plug != null && _communication != null) {
+            final IMessageQueue messageQueue = _communication.getMessageQueue();
+            final IMessageHandler messageHandler = new ReflectMessageHandler();
+            LOG.info("add iplug [" + plug.getClass().getSimpleName() + "] to message handler");
+            ((ReflectMessageHandler) messageHandler).addObjectToCall(IPlug.class, plug);
+            LOG.info("add message handler to message queue");
+            messageQueue.addMessageHandler(ReflectMessageHandler.MESSAGE_TYPE, messageHandler);
+        }
+    }
 }
