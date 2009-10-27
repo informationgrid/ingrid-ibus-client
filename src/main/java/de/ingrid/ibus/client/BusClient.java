@@ -74,7 +74,7 @@ public class BusClient {
             LOG.warn("iPlug is already set: " + _iPlug.getClass().getName());
         } else {
             _iPlug = iPlug;
-            setCommunicationPlug(_iPlug);
+            setCommunicationPlug(_iPlug, _communication);
         }
     }
 
@@ -165,7 +165,7 @@ public class BusClient {
                 // create iBusses
                 createIBusProxies(_communication);
                 // set plug
-                setCommunicationPlug(_iPlug);
+                setCommunicationPlug(_iPlug, _communication);
             } else if (!allConnected()) {
                 restart();
             }
@@ -220,12 +220,14 @@ public class BusClient {
         }
     }
 
-    private void setCommunicationPlug(final IPlug plug) {
-        if (plug != null && _communication != null) {
-            final IMessageQueue messageQueue = _communication.getMessageQueue();
-            final IMessageHandler messageHandler = new ReflectMessageHandler();
-            LOG.info("add iplug [" + plug.getClass().getSimpleName() + "] to message handler");
+    private void setCommunicationPlug(final IPlug plug, final ICommunication communication) throws Exception {
+        if (plug != null && communication != null) {
+            final IMessageQueue messageQueue = communication.getMessageQueue();
+            IMessageHandler messageHandler = new ReflectMessageHandler();
             ((ReflectMessageHandler) messageHandler).addObjectToCall(IPlug.class, plug);
+            messageHandler = new MessageHandlerCache(messageHandler);
+            LOG.info("add iplug [" + plug.getClass().getSimpleName() + "] to message handler ["
+                    + messageHandler.getClass().getSimpleName() + "]");
             LOG.info("add message handler to message queue");
             messageQueue.addMessageHandler(ReflectMessageHandler.MESSAGE_TYPE, messageHandler);
         }
