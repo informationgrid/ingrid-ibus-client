@@ -28,11 +28,10 @@ public class MessageHandlerCache implements IMessageHandler {
         _cacheManager = CacheManager.getInstance();
         _cache = _cacheManager.getCache("ingrid-cache");
         if (_cache == null) {
-            if (!_cacheManager.cacheExists("default")) {
+            _cache = _cacheManager.getCache("default");
+            if (_cache == null) {
                 _cache = new Cache("default", 1000, false, false, 600, 600);
                 _cacheManager.addCache(_cache);
-            } else {
-                _cache = _cacheManager.getCache("default");
             }
         }
     }
