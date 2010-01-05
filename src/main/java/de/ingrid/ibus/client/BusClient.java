@@ -50,7 +50,6 @@ public class BusClient {
         _communicationXml = communicationXml;
         _iPlug = iplug;
         start();
-        setCommunicationPlug(_iPlug, _communication);
     }
 
     @Deprecated
