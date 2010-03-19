@@ -138,7 +138,10 @@ public class BusClient {
     }
 
     public boolean isConnected(final IBus iBus) {
-        return isConnected(_nonCacheableIBusses.indexOf(iBus));
+        if (_nonCacheableIBusses.contains(iBus)) {
+            return isConnected(_nonCacheableIBusses.indexOf(iBus));
+        }
+        return false;
     }
 
     public boolean isConnected(final int index) {
