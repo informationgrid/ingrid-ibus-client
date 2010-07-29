@@ -2,7 +2,7 @@
 <communication xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="communication.xsd">
 	<server name="/test-group:test-server">
-		<socket port="2323" timeout="10" />
+		<socket port="2323" timeout="5" />
 		<messages maximumSize="1048576" threadCount="100" />
 	</server>
 	<messages queueSize="10" handleTimeout="10"/>

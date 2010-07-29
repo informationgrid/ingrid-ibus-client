@@ -4,14 +4,19 @@ import java.io.File;
 
 import junit.framework.TestCase;
 import net.weta.components.communication.ICommunication;
+import net.weta.components.communication.reflect.ProxyService;
 import net.weta.components.communication.tcp.StartCommunication;
 
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import de.ingrid.ibus.Bus;
 import de.ingrid.ibus.client.BusClient;
 import de.ingrid.ibus.client.BusClientFactory;
+import de.ingrid.utils.IBus;
 import de.ingrid.utils.IPlug;
+import de.ingrid.utils.IngridHits;
+import de.ingrid.utils.queryparser.QueryStringParser;
 
 public class BusClientTest extends TestCase {
 
@@ -31,6 +36,8 @@ public class BusClientTest extends TestCase {
         // new
         _server = StartCommunication.create(BusClientTest.class.getResourceAsStream("/communication-server.xml"));
         _server.startup();
+        ProxyService.createProxyServer(_server, IBus.class, new Bus(new DummyProxyFactory()));
+        
 
         // singleton
         File file = new File("src/test/resources/communication-client.xml");
@@ -79,5 +86,39 @@ public class BusClientTest extends TestCase {
         assertNotNull(_client.getCacheableIBus());
         assertNotNull(_client.getNonCacheableIBus());
     }
+    
+    public void testRestartIBus() throws Exception {
+        IngridHits hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
+        assertNotNull(hits);
+        _server.shutdown();
+        Thread.sleep(5000);
+        try {
+        	hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
+        	fail("Server is shut down. Client should throw an exception.");
+        } catch (net.weta.components.communication.tcp.TimeoutException e) {
+        }
+        
+        _server.startup();
+        Thread.sleep(5000);
+        hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
+        assertNotNull(hits);
+    }
 
+    
+    public void testRestartClient() throws Exception {
+        IngridHits hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
+        assertNotNull(hits);
+        _client.shutdown();
+        Thread.sleep(5000);
+        try {
+        	hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
+        	fail("Client is not connected and should throw an exception.");
+        } catch (NullPointerException e) {
+        }
+        _client.start();
+        Thread.sleep(5000);
+        hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
+        assertNotNull(hits);
+    }
+    
 }
