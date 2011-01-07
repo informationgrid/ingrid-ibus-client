@@ -183,7 +183,7 @@ public class BusClient {
             _nonCacheableIBusses.clear();
             _cacheableIBusses.clear();
 
-            // sleep until connected
+            // sleep until disconnected
             for (int i = 0; i < 10; i++) {
                 if (allDisconnected()) {
                     break;
@@ -197,8 +197,13 @@ public class BusClient {
     }
 
     public void restart() throws Exception {
-        LOG.info("restart communication");
-        shutdown();
+        LOG.info("Restart communication...");
+        if (_communication != null) {
+            LOG.info("Shutdown communication.");
+            // shutdown communication
+            _communication.shutdown();
+        }
+        LOG.info("Start communication.");
         start();
     }
 
