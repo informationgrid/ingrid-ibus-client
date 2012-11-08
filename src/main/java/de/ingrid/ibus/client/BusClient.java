@@ -160,7 +160,8 @@ public class BusClient {
                     Thread.sleep(500);
                 }
                 if (!allConnected()) {
-                    throw new Exception("start communication failed");
+                    LOG.warn("Not all iBus connections could be established.");
+//                    throw new Exception("start communication failed");
                 }
                 // create iBusses
                 createIBusProxies(_communication);

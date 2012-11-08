@@ -120,5 +120,33 @@ public class BusClientTest extends TestCase {
         hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
         assertNotNull(hits);
     }
+
+    public void testStartClientBeforeIBus() throws Exception {
+        IngridHits hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
+        assertNotNull(hits);
+        _server.shutdown();
+        _client.shutdown();
+        Thread.sleep(5000);
+        try {
+            hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
+            fail("Client is not connected and should throw an exception.");
+        } catch (NullPointerException e) {
+        }
+        _client.start();
+        Thread.sleep(5000);
+        try {
+            hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
+            fail("Client is not connected and should throw an exception.");
+        } catch (NullPointerException e) {
+        } catch (net.weta.components.communication.tcp.TimeoutException e) {
+        } catch (Exception e) {
+            fail("Unexpected Exception.");
+        }
+        _server.startup();
+        Thread.sleep(5000);
+        hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
+        assertNotNull(hits);
+    }
+    
     
 }
