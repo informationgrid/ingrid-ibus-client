@@ -8,12 +8,13 @@
 	<groupId>de.ingrid</groupId>
 	<artifactId>ingrid-ibus-client</artifactId>
 	<packaging>jar</packaging>
-	<version>3.5.0-SNAPSHOT</version>
+	<version>3.5.0</version>
 	<name>InGrid iBus Client</name>
 	<scm>
 		<connection>scm:git:git@github.com:informationgrid/ingrid-ibus-client.git</connection>
     <developerConnection>scm:git:git@github.com:informationgrid/ingrid-ibus-client.git</developerConnection>
-	</scm>
+	  <tag>ingrid-ibus-client-3.5.0</tag>
+  </scm>
 	<dependencies>
         <dependency>
             <groupId>de.ingrid</groupId>
