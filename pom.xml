@@ -1,78 +1,75 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<parent>
+  <parent>
     <artifactId>ingrid-base-pom</artifactId>
     <groupId>de.ingrid</groupId>
-    <version>3.5.0</version>
+    <version>3.5.1</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-	<groupId>de.ingrid</groupId>
-	<artifactId>ingrid-ibus-client</artifactId>
-	<packaging>jar</packaging>
-	<version>3.6.0-SNAPSHOT</version>
-	<name>InGrid iBus Client</name>
-	<scm>
-		<connection>scm:git:git@github.com:informationgrid/ingrid-ibus-client.git</connection>
+  <groupId>de.ingrid</groupId>
+  <artifactId>ingrid-ibus-client</artifactId>
+  <packaging>jar</packaging>
+  <version>3.6.0-SNAPSHOT</version>
+  <name>InGrid iBus Client</name>
+  <scm>
+    <connection>scm:git:git@github.com:informationgrid/ingrid-ibus-client.git</connection>
     <developerConnection>scm:git:git@github.com:informationgrid/ingrid-ibus-client.git</developerConnection>
-	  <tag>HEAD</tag>
+    <tag>HEAD</tag>
   </scm>
-	<dependencies>
-        <dependency>
-            <groupId>de.ingrid</groupId>
-            <artifactId>ingrid-utils</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>de.ingrid</groupId>
-            <artifactId>ingrid-communication</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-            <version>1.4.1</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.8.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.ingrid</groupId>
-            <artifactId>ingrid-ibus</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>de.ingrid</groupId>
-                    <artifactId>ingrid-iplug-dsc</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>de.ingrid</groupId>
-                    <artifactId>ingrid-iplug-tamino</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-    </dependencies>
-    <!-- <build>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <configuration>
-                    <encoding>Cp1252</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build> -->
-	<repositories>
-		<!-- Repo of parent pom needed, parent pom may not be installed locally yet -->
-		<repository>
-          <id>de.ingrid.all</id>
-          <name>Maven Repo InGrid</name>
-          <url>https://dev.informationgrid.eu/archiva/repository/ingrid-all</url>
-        </repository>
-	</repositories>
+  <dependencies>
+    <dependency>
+      <groupId>de.ingrid</groupId>
+      <artifactId>ingrid-version-management-pom</artifactId>
+      <version>3.6.0-SNAPSHOT</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+    <dependency>
+      <groupId>de.ingrid</groupId>
+      <artifactId>ingrid-utils</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>de.ingrid</groupId>
+      <artifactId>ingrid-communication</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+      <version>1.4.1</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>1.8.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>de.ingrid</groupId>
+      <artifactId>ingrid-ibus</artifactId>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>de.ingrid</groupId>
+          <artifactId>ingrid-iplug-dsc</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>de.ingrid</groupId>
+          <artifactId>ingrid-iplug-tamino</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
+  <!-- <build><plugins><plugin><groupId>org.codehaus.mojo</groupId><artifactId>license-maven-plugin</artifactId><configuration><encoding>Cp1252</encoding></configuration></plugin></plugins></build>-->
+  <repositories>
+    <!-- Repo of parent pom needed, parent pom may not be installed locally yet -->
+    <repository>
+      <id>de.ingrid.all</id>
+      <name>Maven Repo InGrid</name>
+      <url>https://dev.informationgrid.eu/archiva/repository/ingrid-all</url>
+    </repository>
+  </repositories>
 </project>
