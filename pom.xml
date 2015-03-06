@@ -29,13 +29,6 @@
   <dependencies>
     <dependency>
       <groupId>de.ingrid</groupId>
-      <artifactId>ingrid-version-management-pom</artifactId>
-      <version>3.6.0-SNAPSHOT</version>
-      <type>pom</type>
-      <scope>import</scope>
-    </dependency>
-    <dependency>
-      <groupId>de.ingrid</groupId>
       <artifactId>ingrid-utils</artifactId>
     </dependency>
     <dependency>
