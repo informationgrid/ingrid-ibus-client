@@ -2,38 +2,28 @@
   <parent>
     <artifactId>ingrid-base-pom</artifactId>
     <groupId>de.ingrid</groupId>
-    <version>3.5.1</version>
+    <version>3.6.2-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>de.ingrid</groupId>
   <artifactId>ingrid-ibus-client</artifactId>
   <packaging>jar</packaging>
-  <version>3.6.0-SNAPSHOT</version>
+  <version>3.6.2-SNAPSHOT</version>
   <name>InGrid iBus Client</name>
   <scm>
     <connection>scm:git:git@github.com:informationgrid/ingrid-ibus-client.git</connection>
     <developerConnection>scm:git:git@github.com:informationgrid/ingrid-ibus-client.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>de.ingrid</groupId>
-        <artifactId>ingrid-version-management-pom</artifactId>
-        <version>3.6.0-SNAPSHOT</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>de.ingrid</groupId>
       <artifactId>ingrid-utils</artifactId>
+      <version>3.6.2-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>de.ingrid</groupId>
       <artifactId>ingrid-communication</artifactId>
+      <version>3.6.2-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>net.sf.ehcache</groupId>
