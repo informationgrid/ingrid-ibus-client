@@ -2,7 +2,7 @@
  * **************************************************-
  * Ingrid iBus Client
  * ==================================================
- * Copyright (C) 2014 - 2015 wemove digital solutions GmbH
+ * Copyright (C) 2014 - 2016 wemove digital solutions GmbH
  * ==================================================
  * Licensed under the EUPL, Version 1.1 or – as soon they will be
  * approved by the European Commission - subsequent versions of the
@@ -31,6 +31,8 @@ package de.ingrid.bus.client;
 import java.util.Random;
 
 import de.ingrid.utils.IPlug;
+import de.ingrid.utils.IngridCall;
+import de.ingrid.utils.IngridDocument;
 import de.ingrid.utils.IngridHit;
 import de.ingrid.utils.IngridHitDetail;
 import de.ingrid.utils.IngridHits;
@@ -108,5 +110,10 @@ public class DummyIPlug implements IPlug {
     public void close() throws Exception {
 	// TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public IngridDocument call(IngridCall arg0) throws Exception {
+        return null;
     }
 }
