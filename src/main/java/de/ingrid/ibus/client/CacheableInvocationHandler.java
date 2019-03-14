@@ -29,9 +29,8 @@ import java.lang.reflect.Method;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
-
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CacheableInvocationHandler implements InvocationHandler {
 
@@ -41,7 +40,7 @@ public class CacheableInvocationHandler implements InvocationHandler {
 
     private Cache _cache;
 
-    private static final Logger LOG = Logger.getLogger(CacheableInvocationHandler.class);
+    private static final Logger LOG = LogManager.getLogger(CacheableInvocationHandler.class);
 
     private final InvocationHandler _defaultHandler;
 
@@ -116,7 +115,7 @@ public class CacheableInvocationHandler implements InvocationHandler {
         try {
             element = _cache.get(cacheKey);
         } catch (Exception e) {
-            LOG.log(Level.ERROR, "can not load element from cache", e);
+            LOG.error("can not load element from cache", e);
         }
         return element;
     }

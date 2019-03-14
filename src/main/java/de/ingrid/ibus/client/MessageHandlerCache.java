@@ -28,8 +28,8 @@ import net.sf.ehcache.Element;
 import net.weta.components.communication.messaging.IMessageHandler;
 import net.weta.components.communication.messaging.Message;
 import net.weta.components.communication.reflect.ReflectMessage;
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MessageHandlerCache implements IMessageHandler {
 
@@ -37,7 +37,7 @@ public class MessageHandlerCache implements IMessageHandler {
 
     private CacheManager _cacheManager;
 
-    private static final Logger LOG = Logger.getLogger(MessageHandlerCache.class);
+    private static final Logger LOG = LogManager.getLogger(MessageHandlerCache.class);
 
     private static final int CACHE_OFF = 0;
 

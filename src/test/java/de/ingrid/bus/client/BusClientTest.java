@@ -24,6 +24,7 @@ package de.ingrid.bus.client;
 
 import java.io.File;
 
+import de.ingrid.ibus.Bus;
 import junit.framework.TestCase;
 import net.weta.components.communication.ICommunication;
 import net.weta.components.communication.reflect.ProxyService;
@@ -32,7 +33,6 @@ import net.weta.components.communication.tcp.StartCommunication;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import de.ingrid.ibus.Bus;
 import de.ingrid.ibus.client.BusClient;
 import de.ingrid.ibus.client.BusClientFactory;
 import de.ingrid.utils.IBus;
