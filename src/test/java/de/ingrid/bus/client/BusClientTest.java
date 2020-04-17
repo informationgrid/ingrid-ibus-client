@@ -113,7 +113,7 @@ public class BusClientTest extends TestCase {
         IngridHits hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
         assertNotNull(hits);
         _server.shutdown();
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         try {
         	hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
         	fail("Server is shut down. Client should throw an exception.");
@@ -121,7 +121,7 @@ public class BusClientTest extends TestCase {
         }
         
         _server.startup();
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
         assertNotNull(hits);
     }
@@ -131,14 +131,14 @@ public class BusClientTest extends TestCase {
         IngridHits hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
         assertNotNull(hits);
         _client.shutdown();
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         try {
         	hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
         	fail("Client is not connected and should throw an exception.");
         } catch (NullPointerException e) {
         }
         _client.start();
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
         assertNotNull(hits);
     }
@@ -148,14 +148,14 @@ public class BusClientTest extends TestCase {
         assertNotNull(hits);
         _server.shutdown();
         _client.shutdown();
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         try {
             hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
             fail("Client is not connected and should throw an exception.");
         } catch (NullPointerException e) {
         }
         _client.start();
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         try {
             hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
             fail("Client is not connected and should throw an exception.");
@@ -165,7 +165,7 @@ public class BusClientTest extends TestCase {
             fail("Unexpected Exception.");
         }
         _server.startup();
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
         assertNotNull(hits);
     }
