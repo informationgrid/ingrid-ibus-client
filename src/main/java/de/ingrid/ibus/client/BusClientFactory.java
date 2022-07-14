@@ -70,4 +70,9 @@ public class BusClientFactory {
         }
         return _busClient;
     }
+	@Deprecated
+    public static BusClient createBusClientOverride(final ICommunication communication) throws Exception {
+        _busClient = new BusClient(communication);
+        return _busClient;
+    }
 }
