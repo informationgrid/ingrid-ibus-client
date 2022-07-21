@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.weta.components.communication.ICommunication;
+import net.weta.components.communication.configuration.Configuration;
 import net.weta.components.communication.messaging.IMessageHandler;
 import net.weta.components.communication.messaging.IMessageQueue;
 import net.weta.components.communication.reflect.ReflectInvocationHandler;
@@ -192,6 +193,33 @@ public class BusClient {
             } else if (!allConnected()) {
                 restart();
             }
+        }
+    }
+
+    public void start(Configuration config) throws Exception {
+        if ((allDisconnected() || _communication == null)) {
+            // connect
+            LOG.info("create communication");
+            _communication = StartCommunication.create(config);
+            LOG.info("start communication");
+            _communication.startup();
+            // sleep until connected
+            for (int i = 0; i < 10; i++) {
+                if (allConnected()) {
+                    break;
+                }
+                Thread.sleep(500);
+            }
+            if (!allConnected()) {
+                LOG.warn("Not all iBus connections could be established.");
+//                    throw new Exception("start communication failed");
+            }
+            // create iBusses
+            createIBusProxies(_communication);
+            // set plug
+            setCommunicationPlug(_iPlug, _communication);
+        } else if (!allConnected()) {
+            restart();
         }
     }
 
