@@ -167,8 +167,8 @@ public class StressTestBusClient {
     }
 
     public static void main(String[] args) throws Exception {
-        StressTestBusClient client = new StressTestBusClient(new File(args[0]), new Integer(args[1]).intValue(),
-                new Integer(args[2]).intValue());
+        StressTestBusClient client = new StressTestBusClient(new File(args[0]), Integer.valueOf(args[1]).intValue(),
+                Integer.valueOf(args[2]).intValue());
 
         while (true) {
             client.testBus();
