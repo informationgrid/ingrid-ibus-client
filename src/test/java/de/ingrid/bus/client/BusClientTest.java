@@ -24,7 +24,8 @@ package de.ingrid.bus.client;
 
 import java.io.File;
 
-import de.ingrid.ibus.Bus;
+import de.ingrid.ibus.comm.Bus;
+import de.ingrid.ibus.service.SettingsService;
 import junit.framework.TestCase;
 import net.weta.components.communication.ICommunication;
 import net.weta.components.communication.reflect.ProxyService;
@@ -58,7 +59,7 @@ public class BusClientTest extends TestCase {
         // new
         _server = StartCommunication.create(BusClientTest.class.getResourceAsStream("/communication-server.xml"));
         _server.startup();
-        ProxyService.createProxyServer(_server, IBus.class, new Bus(new DummyProxyFactory()));
+        ProxyService.createProxyServer(_server, IBus.class, new Bus(new DummyProxyFactory(), new SettingsService()));
         
 
         // singleton
