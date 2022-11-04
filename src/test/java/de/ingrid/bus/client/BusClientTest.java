@@ -63,7 +63,7 @@ public class BusClientTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
 
         // new
         _server = StartCommunication.create(BusClientTest.class.getResourceAsStream("/communication-server.xml"));
