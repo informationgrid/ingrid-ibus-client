@@ -49,11 +49,11 @@ public class CacheableInvocationHandler implements InvocationHandler {
         _cacheManager = CacheManager.getInstance();
         _cache = _cacheManager.getCache("ingrid-cache");
         if (_cache == null) {
-            if (!_cacheManager.cacheExists("default")) {
-                _cache = new Cache("default", 1000, false, false, 600, 600);
+            if (!_cacheManager.cacheExists(MessageHandlerCache.DEFAULT_CACHE)) {
+                _cache = new Cache(MessageHandlerCache.DEFAULT_CACHE, 1000, false, false, 600, 600);
                 _cacheManager.addCache(_cache);
             } else {
-                _cache = _cacheManager.getCache("default");
+                _cache = _cacheManager.getCache(MessageHandlerCache.DEFAULT_CACHE);
             }
         }
     }
