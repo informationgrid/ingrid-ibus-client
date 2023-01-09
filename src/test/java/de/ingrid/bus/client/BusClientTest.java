@@ -24,11 +24,14 @@ package de.ingrid.bus.client;
 
 import java.io.File;
 
-import de.ingrid.ibus.Bus;
-import junit.framework.TestCase;
+import de.ingrid.ibus.comm.Bus;
+import de.ingrid.ibus.service.SettingsService;
 import net.weta.components.communication.ICommunication;
 import net.weta.components.communication.reflect.ProxyService;
 import net.weta.components.communication.tcp.StartCommunication;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -40,7 +43,14 @@ import de.ingrid.utils.IPlug;
 import de.ingrid.utils.IngridHits;
 import de.ingrid.utils.queryparser.QueryStringParser;
 
-public class BusClientTest extends TestCase {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+public class BusClientTest {
 
     @Mock
     private IPlug _plug_1;
@@ -51,14 +61,14 @@ public class BusClientTest extends TestCase {
     private ICommunication _server;
     private BusClient _client;
 
-    @Override
-    protected void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+    @BeforeEach
+    public void setUp() throws Exception {
+        MockitoAnnotations.openMocks(this);
 
         // new
         _server = StartCommunication.create(BusClientTest.class.getResourceAsStream("/communication-server.xml"));
         _server.startup();
-        ProxyService.createProxyServer(_server, IBus.class, new Bus(new DummyProxyFactory()));
+        ProxyService.createProxyServer(_server, IBus.class, new Bus(new DummyProxyFactory(), new SettingsService()));
         
 
         // singleton
@@ -69,26 +79,30 @@ public class BusClientTest extends TestCase {
         }
     }
 
-    @Override
-    protected void tearDown() throws Exception {
+    @AfterEach
+    public void tearDown() throws Exception {
         _server.shutdown();
     }
 
+    @Test
     public void testIsConnected() throws Exception {
         assertTrue(_client.allConnected());
     }
 
+    @Test
     public void testShutdown() throws Exception {
         _client.shutdown();
         assertFalse(_client.allConnected());
     }
 
+    @Test
     public void testRestart() throws Exception {
         assertTrue(_client.allConnected());
         _client.restart();
         assertTrue(_client.allConnected());
     }
 
+    @Test
     public void testSetPlug() throws Exception {
         _client.setIPlug(_plug_1);
         assertNotSame(_plug_1, _plug_2);
@@ -99,16 +113,19 @@ public class BusClientTest extends TestCase {
         assertEquals(_plug_1, _client.getIPlug());
     }
 
+    @Test
     public void testGetUrlAndPeerName() throws Exception {
         assertEquals("/test-group:test-server", _client.getMotherBusUrl());
         assertEquals("/test-group:test-client", _client.getPeerName());
     }
 
+    @Test
     public void testGetBusses() throws Exception {
         assertNotNull(_client.getCacheableIBus());
         assertNotNull(_client.getNonCacheableIBus());
     }
-    
+
+    @Test
     public void testRestartIBus() throws Exception {
         IngridHits hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
         assertNotNull(hits);
@@ -126,7 +143,8 @@ public class BusClientTest extends TestCase {
         assertNotNull(hits);
     }
 
-    
+
+    @Test
     public void testRestartClient() throws Exception {
         IngridHits hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
         assertNotNull(hits);
@@ -143,6 +161,7 @@ public class BusClientTest extends TestCase {
         assertNotNull(hits);
     }
 
+    @Test
     public void testStartClientBeforeIBus() throws Exception {
         IngridHits hits = _client.getNonCacheableIBus().search(QueryStringParser.parse("fische"), 10, 0, 10, 1000);
         assertNotNull(hits);

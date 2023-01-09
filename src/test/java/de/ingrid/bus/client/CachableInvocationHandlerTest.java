@@ -26,14 +26,17 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
+
 import de.ingrid.ibus.client.CacheableInvocationHandler;
 import de.ingrid.utils.IBus;
 import de.ingrid.utils.IngridHits;
 import de.ingrid.utils.query.IngridQuery;
 import de.ingrid.utils.queryparser.QueryStringParser;
 
-public class CachableInvocationHandlerTest extends TestCase {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class CachableInvocationHandlerTest {
 
     private int _counter = 0;
     
@@ -44,7 +47,8 @@ public class CachableInvocationHandlerTest extends TestCase {
             return new IngridHits();
         }
     }
-    
+
+    @Test
     public void testCache() throws Exception {
 
         InvocationHandler invocationHandler = new CacheableInvocationHandler(new DummyHandler());

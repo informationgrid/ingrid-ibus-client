@@ -32,6 +32,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class MessageHandlerCache implements IMessageHandler {
+    
+    public static String DEFAULT_CACHE = "default-ibus-client";
 
     private final IMessageHandler _messageHandler;
 
@@ -46,8 +48,8 @@ public class MessageHandlerCache implements IMessageHandler {
     public MessageHandlerCache(IMessageHandler messageHandler) throws Exception {
         _messageHandler = messageHandler;
         _cacheManager = CacheManager.getInstance();
-        if (!_cacheManager.cacheExists("ingrid-cache") && !_cacheManager.cacheExists("default")) {
-            final Cache cache = new Cache("default", 1000, false, false, 600, 600);
+        if (!_cacheManager.cacheExists("ingrid-cache") && !_cacheManager.cacheExists(DEFAULT_CACHE)) {
+            final Cache cache = new Cache(DEFAULT_CACHE, 1000, false, false, 600, 600);
             _cacheManager.addCache(cache);
         }
     }
