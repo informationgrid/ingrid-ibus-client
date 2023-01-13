@@ -2,7 +2,7 @@
  * **************************************************-
  * Ingrid iBus Client
  * ==================================================
- * Copyright (C) 2014 - 2022 wemove digital solutions GmbH
+ * Copyright (C) 2014 - 2023 wemove digital solutions GmbH
  * ==================================================
  * Licensed under the EUPL, Version 1.1 or – as soon they will be
  * approved by the European Commission - subsequent versions of the
@@ -28,7 +28,7 @@
 
 package de.ingrid.bus.client;
 
-import de.ingrid.ibus.net.IPlugProxyFactory;
+import de.ingrid.ibus.comm.net.IPlugProxyFactory;
 import de.ingrid.utils.IPlug;
 import de.ingrid.utils.PlugDescription;
 
@@ -39,7 +39,7 @@ public class DummyProxyFactory implements IPlugProxyFactory {
 
     /**
      * @throws Exception 
-     * @see de.ingrid.ibus.net.IPlugProxyFactory#createPlugProxy(de.ingrid.utils.PlugDescription, java.lang.String)
+     * @see de.ingrid.ibus.comm.net.IPlugProxyFactory#createPlugProxy(de.ingrid.utils.PlugDescription, java.lang.String)
      */
     public IPlug createPlugProxy(PlugDescription plugDescription, String busurl) throws Exception {
         IPlug plug=new DummyIPlug(plugDescription.getPlugId());
