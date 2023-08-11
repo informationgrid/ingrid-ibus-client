@@ -120,7 +120,7 @@ public class MessageHandlerCache implements IMessageHandler {
     private Cache getCache() {
         Cache cache = _cacheManager.getCache("ingrid-cache");
         if (cache == null) {
-            cache = _cacheManager.getCache("default");
+            cache = _cacheManager.getCache(MessageHandlerCache.DEFAULT_CACHE);
         }
         return cache;
     }
