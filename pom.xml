@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ingrid-ibus-client</artifactId>
   <packaging>jar</packaging>
-  <version>7.0.0</version>
+  <version>7.5.0</version>
   <name>InGrid iBus Client</name>
   <scm>
     <connection>scm:git:git@github.com:informationgrid/ingrid-ibus-client.git</connection>
@@ -19,11 +19,21 @@
     <java.version>17</java.version>
   </properties>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>commons-collections</groupId>
+        <artifactId>commons-collections</artifactId>
+        <version>3.2.2</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>de.ingrid</groupId>
       <artifactId>ingrid-utils</artifactId>
-      <version>7.0.0</version>
+      <version>7.5.0</version>
     </dependency>
     <dependency>
       <groupId>de.ingrid</groupId>
@@ -69,7 +79,7 @@
       <groupId>de.ingrid</groupId>
       <artifactId>ingrid-ibus-backend</artifactId>
       <!-- Use older version to prevent cyclic dependency -->
-      <version>6.3.0</version>
+      <version>7.4.0</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
